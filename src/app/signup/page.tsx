@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Button, Stack, TextInput } from "@carbon/react";
 import Link from "next/link";
+import Image from "next/image";
 import { Formik, Form as FormikForm, Field } from "formik";
 import * as Yup from "yup";
 import styles from "./signupPage.module.scss"; // Import SCSS
@@ -52,10 +53,13 @@ export default function Signup() {
 
   return (
     <div className={styles.signupWrapper}>
+      <div className={styles.logoTitle}>
+      <Image src="/IBM_logo.svg.png" alt="IBM Logo" width={60} height={30} />
       <h2 className={styles.header}>IBM IntelliSphere Optim</h2>
+      </div>
       <div className={styles.formContainer}>
         <h3>Signup</h3>
-        <Formik
+      <Formik
           initialValues={{ fullName: "", email: "", password: "" }}
           validationSchema={SignupSchema}
           onSubmit={handleSubmit}

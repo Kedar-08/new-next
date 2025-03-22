@@ -57,7 +57,10 @@ export default function Login() {
 
   return (
     <div className={styles.loginWrapper}>
+      <div className={styles.logoTitle}>
+      <Image src="/IBM_logo.svg.png" alt="IBM Logo" width={60} height={30} />
       <h2 className={styles.header}>IBM IntelliSphere Optim</h2>
+      </div>
       <div className={styles.formContainer}>
         <h3>Login</h3>
         <Form onSubmit={formik.handleSubmit} className={styles.form}>
