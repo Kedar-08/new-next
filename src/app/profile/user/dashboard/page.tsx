@@ -2,7 +2,13 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Grid, Column, Button } from "@carbon/react";
-import { Archive, Download, Compare, Search } from "@carbon/icons-react";
+import {
+  Archive,
+  Download,
+  Compare,
+  Search,
+  InventoryManagement,
+} from "@carbon/icons-react";
 import GlobalHeader from "@/components/Header";
 
 const Dashboard = () => {
@@ -42,8 +48,9 @@ const Dashboard = () => {
           <Column sm={4} md={8} lg={4}>
             <Button
               kind="tertiary"
-              renderIcon={() => <Download size={32} />}
+              renderIcon={() => <InventoryManagement size={32} />}
               iconDescription=""
+              onClick={() => router.push("/Products")}
               style={{
                 width: "90%",
                 height: "5rem",
@@ -54,7 +61,7 @@ const Dashboard = () => {
                 gap: "0.5rem",
               }}
             >
-              Extract
+              Products
             </Button>
           </Column>
           <Column sm={4} md={8} lg={4}>

@@ -30,7 +30,7 @@ export default function Login() {
       try {
         localStorage.setItem("user", JSON.stringify(values));
         setMessage("Login successful! Redirecting...");
-    
+
         setTimeout(() => {
           router.push("/dashboard");
         }, 500);
@@ -58,8 +58,8 @@ export default function Login() {
   return (
     <div className={styles.loginWrapper}>
       <div className={styles.logoTitle}>
-      <Image src="/IBM_logo.svg.png" alt="IBM Logo" width={60} height={30} />
-      <h2 className={styles.header}>IBM IntelliSphere Optim</h2>
+        <Image src="/IBM_logo.svg.png" alt="IBM Logo" width={60} height={30} />
+        <h2 className={styles.header}>IntelliSphere</h2>
       </div>
       <div className={styles.formContainer}>
         <h3>Login</h3>

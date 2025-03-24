@@ -43,7 +43,9 @@ const ArchiveTable = () => {
   ]);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedRowsToDelete, setSelectedRowsToDelete] = useState<{ id: string }[]>([]);
+  const [selectedRowsToDelete, setSelectedRowsToDelete] = useState<
+    { id: string }[]
+  >([]);
 
   // Function to add a new row
   const addNewRow = () => {
@@ -64,7 +66,9 @@ const ArchiveTable = () => {
   // Confirm and delete selected rows
   const confirmDelete = () => {
     const selectedIds = selectedRowsToDelete.map((row) => row.id);
-    setRows((prevRows) => prevRows.filter((row) => !selectedIds.includes(row.id)));
+    setRows((prevRows) =>
+      prevRows.filter((row) => !selectedIds.includes(row.id))
+    );
     setIsDeleteModalOpen(false); // Close modal after deleting
   };
 
@@ -94,7 +98,7 @@ const ArchiveTable = () => {
                 description="A table with batch actions"
                 {...getTableContainerProps()}
               >
-                <TableToolbar {...batchActionProps}>
+                <TableToolbar>
                   <TableBatchActions {...batchActionProps}>
                     <TableBatchAction
                       renderIcon={TrashCan}
@@ -147,7 +151,10 @@ const ArchiveTable = () => {
                     <TableRow>
                       <TableSelectAll {...getSelectionProps()} />
                       {headers.map((header) => (
-                        <TableHeader {...getHeaderProps({ header })} key={header.key}>
+                        <TableHeader
+                          {...getHeaderProps({ header })}
+                          key={header.key}
+                        >
                           {header.header}
                         </TableHeader>
                       ))}
@@ -179,14 +186,13 @@ const ArchiveTable = () => {
             <p>Are you sure you want to delete the selected rows?</p>
           </ModalBody>
           <ModalFooter
-  primaryButtonText="Confirm"
-  secondaryButtonText="Cancel"
-  onRequestClose={() => setIsDeleteModalOpen(false)}
-  onRequestSubmit={confirmDelete}
->
-  <> </>
-</ModalFooter>
-
+            primaryButtonText="Confirm"
+            secondaryButtonText="Cancel"
+            onRequestClose={() => setIsDeleteModalOpen(false)}
+            onRequestSubmit={confirmDelete}
+          >
+            <> </>
+          </ModalFooter>
         </ComposedModal>
       </main>
     </>

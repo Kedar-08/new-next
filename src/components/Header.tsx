@@ -14,7 +14,7 @@ export default function GlobalHeader() {
     <Header aria-label="IBM IntelliSphere® Optim™">
       {/* Brand Name in Header */}
       <HeaderName href="/" prefix="IBM">
-        IntelliSphere® Optim™
+        IntelliSphere®™
       </HeaderName>
 
       {/* Empty Header Navigation (Can add links if needed) */}

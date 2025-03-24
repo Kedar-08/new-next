@@ -18,8 +18,14 @@ interface SignupFormValues {
 
 const SignupSchema = Yup.object().shape({
   fullName: Yup.string().trim().required("Full Name is required."),
-  email: Yup.string().trim().email("Invalid email format.").required("Email is required."),
-  password: Yup.string().trim().min(6, "Password must be at least 6 characters.").required("Password is required."),
+  email: Yup.string()
+    .trim()
+    .email("Invalid email format.")
+    .required("Email is required."),
+  password: Yup.string()
+    .trim()
+    .min(6, "Password must be at least 6 characters.")
+    .required("Password is required."),
 });
 
 export default function Signup() {
@@ -31,11 +37,14 @@ export default function Signup() {
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
-      const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        }
+      );
 
       if (response.ok) {
         setMessage("Signup successful! Redirecting...");
@@ -54,12 +63,12 @@ export default function Signup() {
   return (
     <div className={styles.signupWrapper}>
       <div className={styles.logoTitle}>
-      <Image src="/IBM_logo.svg.png" alt="IBM Logo" width={60} height={30} />
-      <h2 className={styles.header}>IBM IntelliSphere Optim</h2>
+        <Image src="/IBM_logo.svg.png" alt="IBM Logo" width={60} height={30} />
+        <h2 className={styles.header}>IntelliSphere</h2>
       </div>
       <div className={styles.formContainer}>
         <h3>Signup</h3>
-      <Formik
+        <Formik
           initialValues={{ fullName: "", email: "", password: "" }}
           validationSchema={SignupSchema}
           onSubmit={handleSubmit}
