@@ -1,0 +1,40 @@
+.new-page-container {
+    padding: 2rem;
+    margin-top: 3rem;
+  }
+  
+  .file-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  
+    // Ensure Carbon Design System input field has space for the button
+    :global(.bx--text-input) {
+      padding-right: 100px; // Space for button inside the input field
+    }
+  
+    .browse-button {
+      position: absolute;
+      right: 1px;
+      top: 50%;
+      transform: translateY(-19%);
+      height: 40px;
+      display: flex;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  
+  .hidden-file-input {
+    display: none;
+  }
+  
+  .table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  

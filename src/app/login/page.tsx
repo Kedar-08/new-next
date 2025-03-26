@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import Image from "next/image";
 import styles from "./loginPage.module.scss";
 import { signInWithGoogle } from "@/app/lib/firebase"; // ✅ Firebase imports
+import TextInputField from "@/components/shared/textinput/TextInputField";
 
 export default function Login() {
   const router = useRouter();
@@ -65,8 +66,9 @@ export default function Login() {
         <h3>Login</h3>
         <Form onSubmit={formik.handleSubmit} className={styles.form}>
           <Stack gap={5}>
-            <TextInput
+            <TextInputField
               id="fullName"
+              name="fullName"
               labelText="Full Name"
               placeholder="Enter your full name"
               invalid={!!formik.errors.fullName && formik.touched.fullName}
@@ -75,8 +77,9 @@ export default function Login() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            <TextInput
+            <TextInputField
               id="password"
+              name="fullName"
               type="password"
               labelText="Password"
               placeholder="Enter your password"

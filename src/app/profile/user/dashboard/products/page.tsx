@@ -93,7 +93,9 @@ export default function ProductsPage() {
             >
               <ClickableTile
                 className={styles.productTile}
-                onClick={() => router.push(`/Products/${product.id}`)}
+                onClick={() =>
+                  router.push(`/profile/user/dashboard/products/${product.id}`)
+                }
               >
                 <AspectRatio ratio="16x9">
                   <img

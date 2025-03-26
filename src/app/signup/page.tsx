@@ -8,6 +8,7 @@ import { Formik, Form as FormikForm, Field } from "formik";
 import * as Yup from "yup";
 import styles from "./signupPage.module.scss"; // Import SCSS
 import { useRouter } from "next/navigation"; // ✅ Import Next.js router
+import TextInputField from "@/components/shared/textinput/TextInputField";
 
 // Define a TypeScript type for form values
 interface SignupFormValues {
@@ -77,7 +78,7 @@ export default function Signup() {
             <FormikForm className={styles.form}>
               <Stack gap={5}>
                 <Field
-                  as={TextInput}
+                  as={TextInputField}
                   id="fullName"
                   name="fullName" // ✅ Added name
                   labelText="Name"
@@ -86,7 +87,7 @@ export default function Signup() {
                   invalidText={errors.fullName}
                 />
                 <Field
-                  as={TextInput}
+                  as={TextInputField}
                   id="email"
                   name="email" // ✅ Added name
                   type="email"
@@ -96,7 +97,7 @@ export default function Signup() {
                   invalidText={errors.email}
                 />
                 <Field
-                  as={TextInput}
+                  as={TextInputField}
                   id="password"
                   name="password" // ✅ Added name
                   type="password"

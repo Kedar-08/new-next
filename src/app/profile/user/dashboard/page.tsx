@@ -31,7 +31,9 @@ const Dashboard = () => {
               kind="tertiary"
               renderIcon={() => <Archive size={32} />} // Larger icon
               iconDescription="" // Remove extra space
-              onClick={() => router.push("/ArchiveTable")}
+              onClick={() =>
+                router.push("/profile/user/dashboard/ArchiveTable")
+              }
               style={{
                 width: "90%", // Reduce width
                 height: "5rem",
@@ -50,7 +52,7 @@ const Dashboard = () => {
               kind="tertiary"
               renderIcon={() => <InventoryManagement size={32} />}
               iconDescription=""
-              onClick={() => router.push("/Products")}
+              onClick={() => router.push("/profile/user/dashboard/products")}
               style={{
                 width: "90%",
                 height: "5rem",
@@ -69,6 +71,9 @@ const Dashboard = () => {
               kind="tertiary"
               renderIcon={() => <Compare size={32} />}
               iconDescription=""
+              onClick={() =>
+                router.push("/profile/user/dashboard/dropdown-table")
+              }
               style={{
                 width: "90%",
                 height: "5rem",
