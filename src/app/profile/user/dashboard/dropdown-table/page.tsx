@@ -4,7 +4,8 @@ import React, { useState, useRef } from "react";
 import GlobalHeader from "@/components/Header";
 import CustomDataTable from "@/components/shared/datatable/CustomDataTable";
 import TextInputField from "@/components/shared/textinput/TextInputField";
-import { Stack, Dropdown, Button } from "@carbon/react";
+import GlobalDropdown from "@/components/shared/dropdown/GlobalDropdown"; // Import GlobalDropdown
+import { Stack, Button } from "@carbon/react";
 import styles from "./dropdownpage.module.scss";
 
 const headers = [
@@ -52,10 +53,16 @@ const NewPage = () => {
     }
   };
 
-  // Handle table selection
+  // Handle table selection from dropdown
   const handleTableChange = (selectedItem: string | null) => {
+    if (!selectedItem) {
+      setSelectedTable(null);
+      setRows([]);
+      return;
+    }
+
     setSelectedTable(selectedItem);
-    setRows(selectedItem ? [...tableData[selectedItem]] : []); // Clear rows if no table selected
+    setRows(tableData[selectedItem]); // Directly set the rows from predefined data
   };
 
   // Function to add new row dynamically
@@ -106,21 +113,18 @@ const NewPage = () => {
             labelText="Enter Text"
             placeholder="Type something..."
             value={textInput}
-            onChange={(e) => setTextInput(e.target.value)} // Updates state
+            onChange={(e) => setTextInput(e.target.value)}
             onBlur={() => {}}
           />
 
           {/* Dropdown to Select Table */}
-          <Dropdown
+          <GlobalDropdown
             id="tableDropdown"
             titleText="Select Table"
             label="Choose a table"
-            items={["None", ...Object.keys(tableData)]} // Add "None" as an option
-            onChange={({ selectedItem }) =>
-              handleTableChange(
-                selectedItem === "None" ? null : (selectedItem as string)
-              )
-            }
+            items={Object.keys(tableData)}
+            selectedItem={selectedTable}
+            onChange={handleTableChange} // Call the function instead of setSelectedTable
           />
 
           {/* Show Table Based on Selection */}
