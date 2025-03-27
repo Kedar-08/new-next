@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { Grid, Column, Button } from "@carbon/react";
 import {
   Archive,
@@ -13,6 +14,7 @@ import GlobalHeader from "@/components/Header";
 
 const Dashboard = () => {
   const router = useRouter(); // Initialize Next.js router
+  const { t } = useTranslation();
 
   return (
     <>
@@ -21,8 +23,8 @@ const Dashboard = () => {
 
       <main style={{ padding: "2rem", marginTop: "3rem" }}>
         {/* Welcome Message */}
-        <h3 style={{ marginBottom: "3rem" }}>Welcome, Admin</h3>
-        <h4 style={{ marginBottom: "2rem" }}>Dashboard</h4>
+        <h3 style={{ marginBottom: "3rem" }}>{t("auth.dashboard.welcome")}</h3>
+        <h4 style={{ marginBottom: "2rem" }}>{t("auth.dashboard.title")}</h4>
 
         {/* Large Button Grid */}
         <Grid condensed style={{ gap: "1rem" }}>
@@ -44,7 +46,7 @@ const Dashboard = () => {
                 gap: "0.5rem", // Reduce space between icon and text
               }}
             >
-              Archive
+              {t("auth.dashboard.archive")}
             </Button>
           </Column>
           <Column sm={4} md={8} lg={4}>
@@ -63,7 +65,7 @@ const Dashboard = () => {
                 gap: "0.5rem",
               }}
             >
-              Products
+              {t("auth.dashboard.products")}
             </Button>
           </Column>
           <Column sm={4} md={8} lg={4}>
@@ -84,7 +86,7 @@ const Dashboard = () => {
                 gap: "0.5rem",
               }}
             >
-              Compare
+              {t("auth.dashboard.compare")}
             </Button>
           </Column>
           <Column sm={4} md={8} lg={4}>
@@ -102,7 +104,7 @@ const Dashboard = () => {
                 gap: "0.5rem",
               }}
             >
-              Search
+              {t("auth.dashboard.search")}
             </Button>
           </Column>
         </Grid>

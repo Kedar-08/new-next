@@ -1,0 +1,76 @@
+{
+    "common": {
+      "app_name": "IntelliSphere"
+    },
+    "auth": {
+      "signup": {
+        "title": "Sign Up",
+        "full_name": "Full Name",
+        "enter_full_name": "Enter your full name",
+        "email": "Email",
+        "enter_email": "Enter your email",
+        "password": "Password",
+        "enter_password": "Enter your password",
+        "success": "Sign-up successful! Redirecting...",
+        "failed": "Sign-up failed. Please try again.",
+        "error": "Error submitting the form.",
+        "full_name_required": "Full name is required.",
+        "invalid_email": "Invalid email format.",
+        "email_required": "Email is required.",
+        "password_min_length": "Password must be at least 6 characters.",
+        "password_required": "Password is required.",
+        "already_have_account": "Already have an account?"
+      },
+      "login": {
+        "title": "Login",
+        "full_name": "Full Name",
+        "enter_full_name": "Enter your full name",
+        "password": "Password",
+        "enter_password": "Enter your password",
+        "login_success": "Login successful! Redirecting...",
+        "login_error": "Login failed. Please try again.",
+        "google_login_success": "Google login successful! Redirecting...",
+        "google_login_failed": "Google login failed. Please try again.",
+        "login_with_google": "Sign in with Google",
+        "no_account": "Don't have an account?",
+        "signup_title": "Sign Up"
+      },
+      "dashboard": {
+        "title": "Dashboard",
+        "welcome": "Welcome, Admin",
+        "archive": "Archive",
+        "products": "Products",
+        "compare": "Compare",
+        "search": "Search"
+      },
+      "google": {
+        "success": "Google login successful! Redirecting...",
+        "failed": "Google login failed. Please try again."
+      }
+    },
+    "archive": {
+      "table": {
+        "title": "Archive Data Table"
+      }
+    },
+    "newpage": {
+      "title": "Dynamic Table Page",
+      "selectFile": "Select File",
+      "noFileChosen": "No file chosen",
+      "browse": "Browse",
+      "enterText": "Enter Text",
+      "placeholder": "Type something...",
+      "selectTable": "Select Table",
+      "chooseTable": "Choose a table"
+    },
+    "products": {
+      "loading": "Loading products...",
+      "welcomeAdmin": "Welcome, Admin",
+      "products": "Products",
+      "searchLabel": "Search products",
+      "searchPlaceholder": "Search products...",
+      "productImageAlt": "Image of {{title}}",
+      "price": "${{price}}"
+    }
+  }
+  

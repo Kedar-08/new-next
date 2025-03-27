@@ -2,16 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import {
   Grid,
   Column,
   ClickableTile,
-  Tile,
-  Button,
   AspectRatio,
   Loading,
   Search,
-  Content,
 } from "@carbon/react";
 import GlobalHeader from "@/components/Header";
 import styles from "./products.module.scss";
@@ -25,6 +23,7 @@ interface Product {
 }
 
 export default function ProductsPage() {
+  const { t } = useTranslation(); // ✅ Use translation hook
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -53,7 +52,7 @@ export default function ProductsPage() {
   if (loading) {
     return (
       <div className="h-screen flex items-center justify-center">
-        <Loading description="Loading products..." withOverlay={false} />
+        <Loading description={t("products.loading")} withOverlay={false} />
       </div>
     );
   }
@@ -64,15 +63,15 @@ export default function ProductsPage() {
       <GlobalHeader />
 
       <main style={{ padding: "2rem", marginTop: "3rem" }}>
-        <h3 style={{ marginBottom: "3rem" }}>Welcome, Admin</h3>
-        <h4 style={{ marginBottom: "2rem" }}>Products</h4>
+        <h3 style={{ marginBottom: "3rem" }}>{t("products.welcomeAdmin")}</h3>
+        <h4 style={{ marginBottom: "2rem" }}>{t("products.products")}</h4>
 
         {/* Search Bar */}
         <Grid className={styles.searchContainer}>
           <Column sm={4} md={8} lg={8}>
             <Search
-              labelText="Search products"
-              placeholder="Search products..."
+              labelText={t("products.searchLabel")}
+              placeholder={t("products.searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               size="lg"
@@ -100,7 +99,7 @@ export default function ProductsPage() {
                 <AspectRatio ratio="16x9">
                   <img
                     src={product.thumbnail}
-                    alt={product.title}
+                    alt={t("products.productImageAlt", { title: product.title })}
                     className={styles.productImage}
                   />
                 </AspectRatio>
@@ -109,7 +108,7 @@ export default function ProductsPage() {
                     {product.title}
                   </h3>
                   <p className="cds--type-body-long-01 mt-2">
-                    ${product.price.toFixed(2)}
+                    {t("products.price", { price: product.price.toFixed(2) })}
                   </p>
                 </div>
               </ClickableTile>

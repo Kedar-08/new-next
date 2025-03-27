@@ -1,0 +1,75 @@
+{
+    "common": {
+        "app_name": "ИнтеллиСфера"
+    },
+    "auth": {
+        "signup": {
+            "title": "Регистрация",
+            "full_name": "Полное имя",
+            "enter_full_name": "Введите полное имя",
+            "email": "Электронная почта",
+            "enter_email": "Введите вашу электронную почту",
+            "password": "Пароль",
+            "enter_password": "Введите пароль",
+            "success": "Регистрация успешна! Перенаправление...",
+            "failed": "Ошибка регистрации. Попробуйте снова.",
+            "error": "Ошибка при отправке формы.",
+            "full_name_required": "Полное имя обязательно.",
+            "invalid_email": "Неверный формат электронной почты.",
+            "email_required": "Электронная почта обязательна.",
+            "password_min_length": "Пароль должен содержать не менее 6 символов.",
+            "password_required": "Пароль обязателен.",
+            "already_have_account": "У вас уже есть аккаунт?"
+        },
+        "login": {
+            "title": "Вход",
+            "full_name": "Полное имя",
+            "enter_full_name": "Введите полное имя",
+            "password": "Пароль",
+            "enter_password": "Введите пароль",
+            "login_success": "Вход выполнен успешно! Перенаправление...",
+            "login_error": "Ошибка входа. Попробуйте снова.",
+            "google_login_success": "Вход через Google выполнен успешно! Перенаправление...",
+            "google_login_failed": "Ошибка входа через Google. Попробуйте снова.",
+            "login_with_google": "Войти через Google",
+            "no_account": "Нет аккаунта?",
+            "signup_title": "Регистрация"
+        },
+        "dashboard": {
+            "title": "Панель управления",
+            "welcome": "Добро пожаловать, Админ",
+            "archive": "Архив",
+            "products": "Продукты",
+            "compare": "Сравнить",
+            "search": "Поиск"
+        },
+        "google": {
+            "success": "Вход через Google выполнен успешно! Перенаправление...",
+            "failed": "Ошибка входа через Google. Попробуйте снова."
+        }
+    },
+    "archive": {
+        "table": {
+            "title": "Таблица архивированных данных"
+        }
+    },
+    "newpage": {
+        "title": "Страница динамической таблицы",
+        "selectFile": "Выбрать файл",
+        "noFileChosen": "Файл не выбран",
+        "browse": "Обзор",
+        "enterText": "Введите текст",
+        "placeholder": "Введите что-нибудь...",
+        "selectTable": "Выберите таблицу",
+        "chooseTable": "Выбрать таблицу"
+    },
+    "products": {
+        "loading": "Загрузка продуктов...",
+        "welcomeAdmin": "Добро пожаловать, Админ",
+        "products": "Продукты",
+        "searchLabel": "Поиск продуктов",
+        "searchPlaceholder": "Искать продукты...",
+        "productImageAlt": "Изображение {{title}}",
+        "price": "{{price}} ₽"
+    }
+}

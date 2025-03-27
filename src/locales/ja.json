@@ -1,0 +1,75 @@
+{
+    "common": {
+        "app_name": "インテリスフィア"
+    },
+    "auth": {
+        "signup": {
+            "title": "サインアップ",
+            "full_name": "フルネーム",
+            "enter_full_name": "フルネームを入力してください",
+            "email": "メール",
+            "enter_email": "メールアドレスを入力してください",
+            "password": "パスワード",
+            "enter_password": "パスワードを入力してください",
+            "success": "サインアップ成功！リダイレクト中...",
+            "failed": "サインアップに失敗しました。もう一度お試しください。",
+            "error": "フォーム送信エラー。",
+            "full_name_required": "フルネームが必要です。",
+            "invalid_email": "無効なメール形式。",
+            "email_required": "メールアドレスが必要です。",
+            "password_min_length": "パスワードは6文字以上である必要があります。",
+            "password_required": "パスワードが必要です。",
+            "already_have_account": "すでにアカウントをお持ちですか？"
+        },
+        "login": {
+            "title": "ログイン",
+            "full_name": "フルネーム",
+            "enter_full_name": "フルネームを入力してください",
+            "password": "パスワード",
+            "enter_password": "パスワードを入力してください",
+            "login_success": "ログイン成功！リダイレクト中...",
+            "login_error": "ログインに失敗しました。もう一度お試しください。",
+            "google_login_success": "Googleログイン成功！リダイレクト中...",
+            "google_login_failed": "Googleログインに失敗しました。もう一度お試しください。",
+            "login_with_google": "Googleでログイン",
+            "no_account": "アカウントをお持ちではありませんか？",
+            "signup_title": "サインアップ"
+        },
+        "dashboard": {
+            "title": "ダッシュボード",
+            "welcome": "ようこそ、管理者",
+            "archive": "アーカイブ",
+            "products": "製品",
+            "compare": "比較",
+            "search": "検索"
+        },
+        "google": {
+            "success": "Googleログイン成功！リダイレクト中...",
+            "failed": "Googleログインに失敗しました。もう一度お試しください。"
+        }
+    },
+    "archive": {
+        "table": {
+            "title": "アーカイブデータテーブル"
+        }
+    },
+    "newpage": {
+        "title": "動的テーブルページ",
+        "selectFile": "ファイルを選択",
+        "noFileChosen": "選択されたファイルなし",
+        "browse": "ブラウズ",
+        "enterText": "テキストを入力",
+        "placeholder": "何か入力してください...",
+        "selectTable": "テーブルを選択",
+        "chooseTable": "テーブルを選択"
+    },
+    "products": {
+        "loading": "製品を読み込んでいます...",
+        "welcomeAdmin": "ようこそ、管理者",
+        "products": "製品",
+        "searchLabel": "製品を検索",
+        "searchPlaceholder": "製品を検索...",
+        "productImageAlt": "{{title}} の画像",
+        "price": "{{price}} 円"
+    }
+}

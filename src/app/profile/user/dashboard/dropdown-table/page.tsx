@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import GlobalHeader from "@/components/Header";
 import CustomDataTable from "@/components/shared/datatable/CustomDataTable";
 import TextInputField from "@/components/shared/textinput/TextInputField";
-import GlobalDropdown from "@/components/shared/dropdown/GlobalDropdown"; // Import GlobalDropdown
+import GlobalDropdown from "@/components/shared/dropdown/GlobalDropdown";
 import { Stack, Button } from "@carbon/react";
 import styles from "./dropdownpage.module.scss";
 
@@ -36,6 +37,7 @@ const tableData: Record<string, TableRowData[]> = {
 };
 
 const NewPage = () => {
+  const { t } = useTranslation();
   const [fileName, setFileName] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedTable, setSelectedTable] = useState<string | null>(null);
@@ -62,7 +64,7 @@ const NewPage = () => {
     }
 
     setSelectedTable(selectedItem);
-    setRows(tableData[selectedItem]); // Directly set the rows from predefined data
+    setRows(tableData[selectedItem]);
   };
 
   // Function to add new row dynamically
@@ -79,14 +81,15 @@ const NewPage = () => {
     <>
       <GlobalHeader />
       <main className={styles["new-page-container"]}>
+        <h2 style={{ marginBottom: "2rem" }}>{t("newpage.title")}</h2>
         <Stack gap={5}>
           {/* File Input Field with Browse Button */}
           <div className={styles["file-input-container"]}>
             <TextInputField
               id="fileInput"
               name="fileInput"
-              labelText="Select File"
-              placeholder="No file chosen"
+              labelText={t("newpage.selectFile")}
+              placeholder={t("newpage.noFileChosen")}
               value={fileName}
               onChange={() => {}}
               onBlur={() => {}}
@@ -103,15 +106,15 @@ const NewPage = () => {
               onClick={handleBrowseClick}
               className={styles["browse-button"]}
             >
-              Browse
+              {t("newpage.browse")}
             </Button>
           </div>
 
           <TextInputField
             id="textInput"
             name="textInput"
-            labelText="Enter Text"
-            placeholder="Type something..."
+            labelText={t("newpage.enterText")}
+            placeholder={t("newpage.placeholder")}
             value={textInput}
             onChange={(e) => setTextInput(e.target.value)}
             onBlur={() => {}}
@@ -120,11 +123,11 @@ const NewPage = () => {
           {/* Dropdown to Select Table */}
           <GlobalDropdown
             id="tableDropdown"
-            titleText="Select Table"
-            label="Choose a table"
+            titleText={t("newpage.selectTable")}
+            label={t("newpage.chooseTable")}
             items={Object.keys(tableData)}
             selectedItem={selectedTable}
-            onChange={handleTableChange} // Call the function instead of setSelectedTable
+            onChange={handleTableChange}
           />
 
           {/* Show Table Based on Selection */}

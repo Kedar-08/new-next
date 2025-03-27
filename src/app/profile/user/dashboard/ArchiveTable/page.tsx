@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import GlobalHeader from "@/components/Header";
 import CustomDataTable from "@/components/shared/datatable/CustomDataTable";
 
@@ -11,6 +12,7 @@ const headers = [
 ];
 
 const ArchiveTable = () => {
+  const { t } = useTranslation();
   const [rows, setRows] = useState([
     { id: "1", name: "Item 1", status: "Active" },
     { id: "2", name: "Item 2", status: "Inactive" },
@@ -39,7 +41,7 @@ const ArchiveTable = () => {
     <>
       <GlobalHeader />
       <main style={{ padding: "2rem", marginTop: "3rem" }}>
-        <h2 style={{ marginBottom: "2rem" }}>Archive Data Table</h2>
+        <h2 style={{ marginBottom: "2rem" }}>{t("archive.table.title")}</h2>
         <CustomDataTable
           headers={headers}
           rows={rows}

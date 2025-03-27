@@ -1,17 +1,19 @@
 "use client";
 
+import { useTranslation } from "react-i18next";
 import React, { useState } from "react";
-import { Button, Stack, TextInput, Form } from "@carbon/react";
+import { Button, Stack, Form } from "@carbon/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Image from "next/image";
 import styles from "./loginPage.module.scss";
-import { signInWithGoogle } from "@/app/lib/firebase"; // ✅ Firebase imports
+import { signInWithGoogle } from "@/app/lib/firebase";
 import TextInputField from "@/components/shared/textinput/TextInputField";
 
 export default function Login() {
+  const { t } = useTranslation();
   const router = useRouter();
   const [message, setMessage] = useState("");
 
@@ -21,38 +23,40 @@ export default function Login() {
       password: "",
     },
     validationSchema: Yup.object({
-      fullName: Yup.string().trim().required("Full Name is required."),
+      fullName: Yup.string()
+        .trim()
+        .required(t("auth.login.full_name_required")),
       password: Yup.string()
         .trim()
-        .min(6, "Password must be at least 6 characters.")
-        .required("Password is required."),
+        .min(6, t("auth.login.password_min_length"))
+        .required(t("auth.login.password_required")),
     }),
     onSubmit: (values) => {
       try {
         localStorage.setItem("user", JSON.stringify(values));
-        setMessage("Login successful! Redirecting...");
+        setMessage(t("auth.login.success"));
 
         setTimeout(() => {
           router.push("/dashboard");
         }, 500);
       } catch {
-        setMessage("Error submitting the form.");
+        setMessage(t("auth.login.error"));
       }
     },
   });
 
-  // ✅ Handle Google Sign-In
+  // Handle Google Sign-In
   const handleGoogleSignIn = async () => {
     const user = await signInWithGoogle();
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
-      setMessage("Google Login successful! Redirecting...");
+      setMessage(t("auth.google.success"));
 
       setTimeout(() => {
         router.push("/profile/user/dashboard");
       }, 500);
     } else {
-      setMessage("Google Login failed. Try again.");
+      setMessage(t("auth.google.failed"));
     }
   };
 
@@ -60,57 +64,55 @@ export default function Login() {
     <div className={styles.loginWrapper}>
       <div className={styles.logoTitle}>
         <Image src="/IBM_logo.svg.png" alt="IBM Logo" width={60} height={30} />
-        <h2 className={styles.header}>IntelliSphere</h2>
+        <h2 className={styles.header}>{t("common.app_name")}</h2>
       </div>
       <div className={styles.formContainer}>
-        <h3>Login</h3>
+        <h3>{t("auth.login.title")}</h3>
         <Form onSubmit={formik.handleSubmit} className={styles.form}>
           <Stack gap={5}>
             <TextInputField
               id="fullName"
               name="fullName"
-              labelText="Full Name"
-              placeholder="Enter your full name"
-              invalid={!!formik.errors.fullName && formik.touched.fullName}
-              invalidText={formik.errors.fullName}
+              labelText={t("auth.login.full_name")}
+              placeholder={t("auth.login.enter_full_name")}
+              invalid={!!(formik.errors.fullName && formik.touched.fullName)}
+              invalidText={t(formik.errors.fullName || "")}
               value={formik.values.fullName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
             <TextInputField
               id="password"
-              name="fullName"
+              name="password"
               type="password"
-              labelText="Password"
-              placeholder="Enter your password"
-              invalid={!!formik.errors.password && formik.touched.password}
-              invalidText={formik.errors.password}
+              labelText={t("auth.login.password")}
+              placeholder={t("auth.login.enter_password")}
+              invalid={!!(formik.errors.password && formik.touched.password)}
+              invalidText={t(formik.errors.password || "")}
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
             <Button type="submit" kind="tertiary">
-              Login
+              {t("auth.login.title")}
             </Button>
           </Stack>
         </Form>
         {message && <p className={styles.message}>{message}</p>}
-
-        {/* ✅ Google Login Button */}
         <div className={styles.googleLogin}>
-          <span>Login with Google</span>
+          <span>{t("auth.login.login_with_google")}</span>
           <button onClick={handleGoogleSignIn} className={styles.googleButton}>
             <Image
               src="/icons8-google.svg"
-              alt="Login with Google"
+              alt={t("auth.login.with_google")}
               width={25}
               height={25}
             />
           </button>
         </div>
-
         <p className={styles.signupRedirect}>
-          Don&apos;t have an account? <Link href="/">Sign Up</Link>
+          {t("auth.login.no_account")}{" "}
+          <Link href="/">{t("auth.signup.title")}</Link>
         </p>
       </div>
     </div>
