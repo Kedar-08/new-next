@@ -123,10 +123,9 @@ const NewPage = () => {
           {/* Dropdown to Select Table */}
           <GlobalDropdown
             id="tableDropdown"
-            titleText={t("newpage.selectTable")}
-            label={t("newpage.chooseTable")}
+            label={t("newpage.chooseTable")} // This is the main label
             items={Object.keys(tableData)}
-            selectedItem={selectedTable}
+            selectedItem={selectedTable || ""}
             onChange={handleTableChange}
           />
 

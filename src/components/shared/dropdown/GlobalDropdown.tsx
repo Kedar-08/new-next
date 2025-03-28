@@ -5,31 +5,39 @@ import { Dropdown } from "@carbon/react";
 
 interface GlobalDropdownProps {
   id: string;
-  titleText: string;
   label: string;
-  items: string[];
-  selectedItem: string | null;
-  onChange: (selectedItem: string | null) => void;
+  items: string[] | { id: string; text: string }[]; // Support both formats
+  selectedItem: string;
+  onChange: (selectedItem: string) => void;
+  disabled?: boolean;
+  helperText?: string;
 }
 
 const GlobalDropdown: React.FC<GlobalDropdownProps> = ({
   id,
-  titleText,
   label,
   items,
   selectedItem,
   onChange,
+  disabled = false,
+  helperText,
 }) => {
+  // Ensure items are formatted correctly
+  const formattedItems =
+    typeof items[0] === "string"
+      ? (items as string[]) // If items are plain strings, use as-is
+      : (items as { id: string; text: string }[]).map((item) => item.text); // Convert objects to strings
+
   return (
     <Dropdown
       id={id}
-      titleText={titleText}
-      label={label}
-      items={["None", ...items]} // Add "None" option to deselect
-      selectedItem={selectedItem} // Pass current selection
-      onChange={({ selectedItem }) =>
-        onChange(selectedItem === "None" ? null : (selectedItem as string))
-      }
+      titleText={label}
+      label={selectedItem || "Select an option"}
+      items={formattedItems} // Use formatted items
+      selectedItem={selectedItem}
+      onChange={({ selectedItem }) => onChange(selectedItem || "")}
+      disabled={disabled}
+      helperText={helperText}
     />
   );
 };

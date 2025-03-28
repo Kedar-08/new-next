@@ -94,6 +94,7 @@ const Dashboard = () => {
               kind="tertiary"
               renderIcon={() => <Search size={32} />}
               iconDescription=""
+              onClick={() => router.push("/profile/user/dashboard/SubmitForm")}
               style={{
                 width: "90%",
                 height: "5rem",
