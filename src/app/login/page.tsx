@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styles from "./loginPage.module.scss";
-import { signInWithGoogle } from "@/app/lib/firebase";
+// import { signInWithGoogle } from "@/app/lib/firebase";
 import TextInputField from "@/components/shared/textinput/TextInputField";
 
 export default function Login() {
@@ -37,7 +37,7 @@ export default function Login() {
         setMessage(t("auth.login.success"));
 
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push("/profile/user/dashboard");
         }, 500);
       } catch {
         setMessage(t("auth.login.error"));
@@ -46,19 +46,19 @@ export default function Login() {
   });
 
   // Handle Google Sign-In
-  const handleGoogleSignIn = async () => {
-    const user = await signInWithGoogle();
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      setMessage(t("auth.google.success"));
+  // const handleGoogleSignIn = async () => {
+  //   const user = await signInWithGoogle();
+  //   if (user) {
+  //     localStorage.setItem("user", JSON.stringify(user));
+  //     setMessage(t("auth.google.success"));
 
-      setTimeout(() => {
-        router.push("/profile/user/dashboard");
-      }, 500);
-    } else {
-      setMessage(t("auth.google.failed"));
-    }
-  };
+  //     setTimeout(() => {
+  //       router.push("/profile/user/dashboard");
+  //     }, 500);
+  //   } else {
+  //     setMessage(t("auth.google.failed"));
+  //   }
+  // };
 
   return (
     <div className={styles.loginWrapper}>
@@ -99,7 +99,8 @@ export default function Login() {
           </Stack>
         </Form>
         {message && <p className={styles.message}>{message}</p>}
-        <div className={styles.googleLogin}>
+
+        {/* <div className={styles.googleLogin}>
           <span>{t("auth.login.login_with_google")}</span>
           <button onClick={handleGoogleSignIn} className={styles.googleButton}>
             <Image
@@ -109,7 +110,8 @@ export default function Login() {
               height={25}
             />
           </button>
-        </div>
+        </div> */}
+        
         <p className={styles.signupRedirect}>
           {t("auth.login.no_account")}{" "}
           <Link href="/">{t("auth.signup.title")}</Link>

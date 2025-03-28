@@ -27,6 +27,7 @@
             "enter_full_name": "フルネームを入力してください",
             "password": "パスワード",
             "enter_password": "パスワードを入力してください",
+            "password_min_length":"パスワードは6文字以上である必要があります。",
             "login_success": "ログイン成功！リダイレクト中...",
             "login_error": "ログインに失敗しました。もう一度お試しください。",
             "google_login_success": "Googleログイン成功！リダイレクト中...",

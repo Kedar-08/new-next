@@ -27,6 +27,7 @@
         "enter_full_name": "Entrez votre nom complet",
         "password": "Mot de passe",
         "enter_password": "Entrez votre mot de passe",
+        "password_min_length": "Le mot de passe doit contenir au moins 6 caractères.",
         "login_success": "Connexion réussie ! Redirection...",
         "login_error": "Échec de la connexion. Veuillez réessayer.",
         "google_login_success": "Connexion Google réussie ! Redirection...",
