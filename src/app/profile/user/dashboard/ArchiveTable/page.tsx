@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import GlobalHeader from "@/components/Header";
 import CustomDataTable from "@/components/shared/datatable/CustomDataTable";
+import "../ArchiveTable/archive.scss";
 
 // Table Headers
 const headers = [
@@ -39,9 +39,8 @@ const ArchiveTable = () => {
 
   return (
     <>
-      <GlobalHeader />
       <main style={{ padding: "2rem", marginTop: "3rem" }}>
-        <h2 style={{ marginBottom: "2rem" }}>{t("archive.table.title")}</h2>
+        <h2 className="backgroundCol">{t("archive.table.title")}</h2>
         <CustomDataTable
           headers={headers}
           rows={rows}

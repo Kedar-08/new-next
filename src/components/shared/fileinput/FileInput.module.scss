@@ -1,0 +1,24 @@
+.fileInputWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .inputContainer {
+    position: relative;
+    width: 100%;
+  }
+  
+  .browseButton {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+  
+  .hiddenFileInput {
+    display: none;
+  }
+  

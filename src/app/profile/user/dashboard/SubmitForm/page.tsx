@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { Button, Grid, Column } from "@carbon/react";
+import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Button, Grid, Column, Form, Stack } from "@carbon/react";
 import GlobalDropdown from "@/components/shared/dropdown/GlobalDropdown";
 import TextInputField from "@/components/shared/textinput/TextInputField";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +10,7 @@ import { saveForm } from "@/redux/slices/formSlice";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/redux/store";
 import styles from "./SubmitForm.module.scss"; // Import SCSS file
+import FileInput from "@/components/shared/fileinput/FileInput";
 
 // Define form state type
 type UserFormState = {
@@ -20,10 +22,12 @@ type UserFormState = {
 };
 
 const SubmitForm = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const router = useRouter();
   const formData = useSelector((state: RootState) => state.form);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  console.log("Redux State:", formData); // 🔥 Logs Redux state in the console
 
   // Define initial state for form values
   const [formValues, setFormValues] = useState<UserFormState>({
@@ -48,120 +52,91 @@ const SubmitForm = () => {
   }, [formData]);
 
   // Handle input changes
-  const handleChange = (id: string, value: string) => {
-    setFormValues((prev) => ({ ...prev, [id]: value }));
-  };
-
-  // Handle file selection
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; // Check if file exists
-    if (file) {
-      setFormValues((prev) => ({ ...prev, fileName: file.name }));
-    }
-  };
-
-  // Browse button click to trigger file input
-  const handleBrowseClick = () => {
-    fileInputRef.current?.click();
+  const handleChange = (id: string, value: string | null) => {
+    setFormValues((prev) => ({ ...prev, [id]: value ?? "" })); // Convert null to an empty string
   };
 
   // Handle form submission
   const handleSubmit = () => {
+    console.log("Dispatching form data to Redux:", formValues); // Logs form data before dispatch
     dispatch(saveForm(formValues));
     router.push("/profile/user/dashboard");
   };
 
   return (
     <Grid fullWidth className={styles.formContainer}>
-      {/* First Name */}
-      <Column sm={4} md={4} lg={8} className={styles.column}>
-        <TextInputField
-          labelText="Enter First Name"
-          id="firstName"
-          value={formValues.firstName}
-          onChange={(e) => handleChange("firstName", e.target.value)}
-          disabled={formData.isReadOnly}
-        />
-      </Column>
+      <Column sm={4} md={6} lg={8}>
+        <Form>
+          <Stack gap={7}>
+            {/* First Name */}
+            <TextInputField
+              labelText={t("submitForm.firstName")}
+              placeholder={t("submitForm.enterFirstName")}
+              id="firstName"
+              value={formValues.firstName}
+              onChange={(e) => handleChange("firstName", e.target.value)}
+              disabled={formData.isReadOnly}
+              name=""
+            />
 
-      {/* Last Name */}
-      <Column sm={4} md={4} lg={8} className={styles.column}>
-        <TextInputField
-          labelText="Enter Last Name"
-          id="lastName"
-          value={formValues.lastName}
-          onChange={(e) => handleChange("lastName", e.target.value)}
-          disabled={formData.isReadOnly}
-        />
-      </Column>
+            {/* Last Name */}
+            <TextInputField
+              labelText={t("submitForm.lastName")}
+              placeholder={t("submitForm.enterLastName")}
+              id="lastName"
+              value={formValues.lastName}
+              onChange={(e) => handleChange("lastName", e.target.value)}
+              disabled={formData.isReadOnly}
+              name=""
+            />
 
-      {/* Gender Dropdown */}
-      <Column sm={4} md={4} lg={8} className={styles.column}>
-        <GlobalDropdown
-          id="gender"
-          label="Select Gender"
-          items={["Male", "Female", "Other"]}
-          selectedItem={formValues.gender}
-          onChange={(val) => handleChange("gender", val)}
-          disabled={formData.isReadOnly}
-        />
-      </Column>
+            {/* Gender Dropdown */}
+            <GlobalDropdown
+              id="gender"
+              label={t("submitForm.selectGender")}
+              items={[
+                t("submitForm.male"),
+                t("submitForm.female"),
+                t("submitForm.other"),
+              ]}
+              selectedItem={formValues.gender}
+              onChange={(val) => handleChange("gender", val)}
+              disabled={formData.isReadOnly}
+            />
 
-      {/* Relationship Dropdown */}
-      <Column sm={4} md={4} lg={8} className={styles.column}>
-        <GlobalDropdown
-          id="relationship"
-          label="Select Relationship Status"
-          items={["Single", "Married"]}
-          selectedItem={formValues.relationship}
-          onChange={(val) => handleChange("relationship", val)}
-          disabled={formData.isReadOnly}
-        />
-      </Column>
+            {/* Relationship Dropdown */}
+            <GlobalDropdown
+              id="relationship"
+              label={t("submitForm.selectRelationship")}
+              items={[t("submitForm.single"), t("submitForm.married")]}
+              selectedItem={formValues.relationship}
+              onChange={(val) => handleChange("relationship", val)}
+              disabled={formData.isReadOnly}
+            />
 
-      {/* File Input Field with Browse Button */}
-      <Column sm={4} md={4} lg={8} className={styles.column}>
-        <div className={styles.fileInputContainer}>
-          <TextInputField
-            id="fileInput"
-            name="fileInput"
-            labelText="Select a file"
-            placeholder="No file chosen"
-            value={formValues.fileName} // ✅ Fixed
-            readOnly
-            onChange={function (e: React.ChangeEvent<HTMLInputElement>): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
-          <input
-            type="file"
-            ref={fileInputRef}
-            className={styles.hiddenFileInput}
-            onChange={handleFileChange}
-          />
-          <Button
-            kind="primary"
-            size="sm"
-            onClick={handleBrowseClick}
-            className={styles.browseButton}
-          >
-            Browse
-          </Button>
-        </div>
-      </Column>
+            {/* File Input Field */}
+            <FileInput
+              id="fileInput"
+              labelText={t("submitForm.fileInput")}
+              placeholder={t("submitForm.noFileChosen")}
+              value={formValues.fileName}
+              onChange={(fileName) => handleChange("fileName", fileName)}
+              disabled={formData.isReadOnly}
+            />
 
-      {/* Submit Button */}
-      {!formData.isReadOnly && (
-        <Column sm={4} md={4} lg={8} className={styles.column}>
-          <Button
-            kind="primary"
-            className={styles.submitBtn}
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
-        </Column>
-      )}
+            {/* Submit Button */}
+            {!formData.isReadOnly && (
+              <Button
+                kind="primary"
+                className={styles.submitBtn}
+                onClick={handleSubmit}
+              >
+                {t("submitForm.submit")}
+              </Button>
+            )}
+          </Stack>
+        </Form>
+      </Column>
     </Grid>
   );
 };

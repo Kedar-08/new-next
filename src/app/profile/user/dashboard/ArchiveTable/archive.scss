@@ -1,0 +1,9 @@
+@use "@carbon/react" as *;
+@use "@carbon/colors" as *;
+@use "@carbon/react/scss/spacing" as *;
+
+.backgroundCol {
+    color: $blue-60 !important; // Use a valid Carbon color
+    margin-bottom: $spacing-07; // Use Carbon spacing
+    background-color: $blue-60;
+  }

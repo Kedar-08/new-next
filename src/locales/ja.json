@@ -27,7 +27,7 @@
             "enter_full_name": "フルネームを入力してください",
             "password": "パスワード",
             "enter_password": "パスワードを入力してください",
-            "password_min_length":"パスワードは6文字以上である必要があります。",
+            "password_min_length": "パスワードは6文字以上である必要があります。",
             "login_success": "ログイン成功！リダイレクト中...",
             "login_error": "ログインに失敗しました。もう一度お試しください。",
             "google_login_success": "Googleログイン成功！リダイレクト中...",
@@ -48,6 +48,25 @@
             "success": "Googleログイン成功！リダイレクト中...",
             "failed": "Googleログインに失敗しました。もう一度お試しください。"
         }
+    },
+    "submitForm": {
+        "title": "フォーム送信",
+        "firstName": "名",
+        "enterFirstName": "名を入力してください",
+        "lastName": "姓",
+        "enterLastName": "姓を入力してください",
+        "gender": "性別",
+        "selectGender": "性別を選択してください",
+        "male": "男性",
+        "female": "女性",
+        "other": "その他",
+        "relationship": "婚姻状況",
+        "selectRelationship": "婚姻状況を選択してください",
+        "single": "独身",
+        "married": "既婚",
+        "fileInput": "ファイルを選択",
+        "noFileChosen": "選択されたファイルなし",
+        "submit": "送信"
     },
     "archive": {
         "table": {

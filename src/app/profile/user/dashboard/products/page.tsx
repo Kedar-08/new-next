@@ -11,7 +11,6 @@ import {
   Loading,
   Search,
 } from "@carbon/react";
-import GlobalHeader from "@/components/Header";
 import styles from "./products.module.scss";
 
 interface Product {
@@ -59,9 +58,6 @@ export default function ProductsPage() {
 
   return (
     <>
-      {/* Global Header */}
-      <GlobalHeader />
-
       <main style={{ padding: "2rem", marginTop: "3rem" }}>
         <h3 style={{ marginBottom: "3rem" }}>{t("products.welcomeAdmin")}</h3>
         <h4 style={{ marginBottom: "2rem" }}>{t("products.products")}</h4>
@@ -99,7 +95,9 @@ export default function ProductsPage() {
                 <AspectRatio ratio="16x9">
                   <img
                     src={product.thumbnail}
-                    alt={t("products.productImageAlt", { title: product.title })}
+                    alt={t("products.productImageAlt", {
+                      title: product.title,
+                    })}
                     className={styles.productImage}
                   />
                 </AspectRatio>

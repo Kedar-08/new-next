@@ -15,7 +15,7 @@ const initialState: FormState = {
   gender: "",
   relationship: "",
   fileName: "",
-  isReadOnly: false, // Controls whether the form is editable
+  isReadOnly: false,
 };
 
 const formSlice = createSlice({
@@ -23,14 +23,19 @@ const formSlice = createSlice({
   initialState,
   reducers: {
     saveForm: (state, action: PayloadAction<Omit<FormState, "isReadOnly">>) => {
-      return { ...state, ...action.payload, isReadOnly: true };
+      Object.assign(state, {
+        ...action.payload,
+        isReadOnly: true,
+      });
     },
-    resetForm: () => initialState,
+
+    resetForm: () => initialState, // ✅ Now exists
+
     setReadOnly: (state, action: PayloadAction<boolean>) => {
       state.isReadOnly = action.payload;
     },
   },
 });
 
-export const { saveForm, resetForm, setReadOnly } = formSlice.actions;
+export const { saveForm, resetForm, setReadOnly } = formSlice.actions; // ✅ Make sure all are exported
 export default formSlice.reducer;

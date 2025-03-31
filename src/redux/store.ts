@@ -5,6 +5,7 @@ export const store = configureStore({
   reducer: {
     form: formReducer,
   },
+  devTools: process.env.NODE_ENV !== "production", // Enables DevTools only in development mode
 });
 
 export type RootState = ReturnType<typeof store.getState>;

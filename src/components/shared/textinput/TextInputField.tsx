@@ -3,33 +3,33 @@ import { TextInput } from "@carbon/react";
 
 interface TextInputProps {
   id: string;
-  name?: string;  // Made optional
+  name?: string; // Optional
   type?: string;
   labelText: string;
   placeholder?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;  // Made optional
-  disabled?: boolean;  // Added missing prop
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void; // Optional
+  disabled?: boolean;
   invalid?: boolean;
   invalidText?: string;
-  readOnly?: boolean;  // Added for completeness
+  readOnly?: boolean;
 }
 
-const TextInputField: React.FC<TextInputProps> = ({
+const TextInputField = ({
   id,
-  name = id,  // Default to id if not provided
+  name = id, // Default to id if not provided
   type = "text",
   labelText,
   placeholder,
   value,
   onChange,
-  onBlur = () => {},  // Default empty function
+  onBlur = () => {}, // Default empty function
   disabled = false,
   invalid = false,
   invalidText,
   readOnly = false,
-}) => {
+}: TextInputProps) => {
   return (
     <TextInput
       id={id}

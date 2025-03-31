@@ -49,6 +49,25 @@
             "failed": "Ошибка входа через Google. Попробуйте снова."
         }
     },
+    "submitForm": {
+        "title": "Отправка формы",
+        "firstName": "Имя",
+        "enterFirstName": "Введите имя",
+        "lastName": "Фамилия",
+        "enterLastName": "Введите фамилию",
+        "gender": "Пол",
+        "selectGender": "Выберите пол",
+        "male": "Мужской",
+        "female": "Женский",
+        "other": "Другой",
+        "relationship": "Семейное положение",
+        "selectRelationship": "Выберите семейное положение",
+        "single": "Холост/Не замужем",
+        "married": "Женат/Замужем",
+        "fileInput": "Выбрать файл",
+        "noFileChosen": "Файл не выбран",
+        "submit": "Отправить"
+    },
     "archive": {
         "table": {
             "title": "Таблица архивированных данных"

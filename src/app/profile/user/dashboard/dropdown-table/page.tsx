@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import GlobalHeader from "@/components/Header";
 import CustomDataTable from "@/components/shared/datatable/CustomDataTable";
 import TextInputField from "@/components/shared/textinput/TextInputField";
-import GlobalDropdown from "@/components/shared/dropdown/GlobalDropdown";
+import GlobalDropdown from "@/components/shared/dropdown/GlobalDropdown"; // Import GlobalDropdown
 import { Stack, Button } from "@carbon/react";
 import styles from "./dropdownpage.module.scss";
+import FileInput from "@/components/shared/fileinput/FileInput";
 
 const headers = [
   { key: "id", header: "ID" },
@@ -37,12 +36,20 @@ const tableData: Record<string, TableRowData[]> = {
 };
 
 const NewPage = () => {
-  const { t } = useTranslation();
-  const [fileName, setFileName] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedTable, setSelectedTable] = useState<string | null>(null);
+  const [selectedTable, setSelectedTable] = useState<string>(""); // Ensure it's always a string
   const [rows, setRows] = useState<TableRowData[]>([]);
   const [textInput, setTextInput] = useState<string>("");
+
+  // Define form values state
+  const [formValues, setFormValues] = useState({
+    fileName: "",
+  });
+
+  // Define form data state (if needed)
+  const [formData, setFormData] = useState({
+    isReadOnly: false, // Change this as per your needs
+  });
 
   // Handle file selection
   const handleBrowseClick = () => {
@@ -51,20 +58,27 @@ const NewPage = () => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      setFileName(event.target.files[0].name);
+      setFormValues({ ...formValues, fileName: event.target.files[0].name });
     }
+  };
+
+  // Handle input field changes
+  const handleChange = (field: string, value: string) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [field]: value,
+    }));
   };
 
   // Handle table selection from dropdown
   const handleTableChange = (selectedItem: string | null) => {
-    if (!selectedItem) {
-      setSelectedTable(null);
+    if (selectedItem === "None") {
+      setSelectedTable("");
       setRows([]);
-      return;
+    } else {
+      setSelectedTable(selectedItem || "");
+      setRows(selectedItem ? tableData[selectedItem] : []);
     }
-
-    setSelectedTable(selectedItem);
-    setRows(tableData[selectedItem]);
   };
 
   // Function to add new row dynamically
@@ -79,42 +93,25 @@ const NewPage = () => {
 
   return (
     <>
-      <GlobalHeader />
       <main className={styles["new-page-container"]}>
-        <h2 style={{ marginBottom: "2rem" }}>{t("newpage.title")}</h2>
         <Stack gap={5}>
           {/* File Input Field with Browse Button */}
-          <div className={styles["file-input-container"]}>
-            <TextInputField
+          <div className={styles.fileInputContainer}>
+            <FileInput
               id="fileInput"
-              name="fileInput"
-              labelText={t("newpage.selectFile")}
-              placeholder={t("newpage.noFileChosen")}
-              value={fileName}
-              onChange={() => {}}
-              onBlur={() => {}}
+              labelText="Select a file"
+              placeholder="No file chosen"
+              value={formValues.fileName}
+              onChange={(fileName) => handleChange("fileName", fileName)}
+              disabled={formData.isReadOnly}
             />
-            <input
-              type="file"
-              ref={fileInputRef}
-              className={styles["hidden-file-input"]}
-              onChange={handleFileChange}
-            />
-            <Button
-              kind="primary"
-              size="sm"
-              onClick={handleBrowseClick}
-              className={styles["browse-button"]}
-            >
-              {t("newpage.browse")}
-            </Button>
           </div>
 
           <TextInputField
             id="textInput"
             name="textInput"
-            labelText={t("newpage.enterText")}
-            placeholder={t("newpage.placeholder")}
+            labelText="Enter Text"
+            placeholder="Type something..."
             value={textInput}
             onChange={(e) => setTextInput(e.target.value)}
             onBlur={() => {}}
@@ -123,9 +120,10 @@ const NewPage = () => {
           {/* Dropdown to Select Table */}
           <GlobalDropdown
             id="tableDropdown"
-            label={t("newpage.chooseTable")} // This is the main label
-            items={Object.keys(tableData)}
-            selectedItem={selectedTable || ""}
+            titleText="Select Table"
+            label="Choose a table"
+            items={["None", ...Object.keys(tableData)]} // Add "None" as an option
+            selectedItem={selectedTable}
             onChange={handleTableChange}
           />
 

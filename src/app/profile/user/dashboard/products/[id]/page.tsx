@@ -17,7 +17,6 @@ import {
   Content,
   Tag,
   StructuredListWrapper,
-  StructuredListHead,
   StructuredListRow,
   StructuredListCell,
   StructuredListBody,

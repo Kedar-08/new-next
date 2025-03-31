@@ -39,12 +39,12 @@ interface DataTableProps {
   onDeleteRows: (selectedRows: TableRowData[]) => void;
 }
 
-const CustomDataTable: React.FC<DataTableProps> = ({
+const CustomDataTable = ({
   headers,
   rows,
   onAddRow,
   onDeleteRows,
-}) => {
+}: DataTableProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rowsToDelete, setRowsToDelete] = useState<TableRowData[]>([]);
 

@@ -1,76 +1,95 @@
 {
-    "common": {
+  "common": {
       "app_name": "IntelliSphere"
-    },
-    "auth": {
+  },
+  "auth": {
       "signup": {
-        "title": "S'inscrire",
-        "full_name": "Nom complet",
-        "enter_full_name": "Entrez votre nom complet",
-        "email": "E-mail",
-        "enter_email": "Entrez votre e-mail",
-        "password": "Mot de passe",
-        "enter_password": "Entrez votre mot de passe",
-        "success": "Inscription réussie ! Redirection...",
-        "failed": "Échec de l'inscription. Veuillez réessayer.",
-        "error": "Erreur lors de la soumission du formulaire.",
-        "full_name_required": "Le nom complet est requis.",
-        "invalid_email": "Format d’e-mail invalide.",
-        "email_required": "L’e-mail est requis.",
-        "password_min_length": "Le mot de passe doit contenir au moins 6 caractères.",
-        "password_required": "Le mot de passe est requis.",
-        "already_have_account": "Vous avez déjà un compte ?"
+          "title": "S'inscrire",
+          "full_name": "Nom complet",
+          "enter_full_name": "Entrez votre nom complet",
+          "email": "E-mail",
+          "enter_email": "Entrez votre e-mail",
+          "password": "Mot de passe",
+          "enter_password": "Entrez votre mot de passe",
+          "success": "Inscription réussie ! Redirection...",
+          "failed": "Échec de l'inscription. Veuillez réessayer.",
+          "error": "Erreur lors de la soumission du formulaire.",
+          "full_name_required": "Le nom complet est requis.",
+          "invalid_email": "Format d’e-mail invalide.",
+          "email_required": "L’e-mail est requis.",
+          "password_min_length": "Le mot de passe doit contenir au moins 6 caractères.",
+          "password_required": "Le mot de passe est requis.",
+          "already_have_account": "Vous avez déjà un compte ?"
       },
       "login": {
-        "title": "Connexion",
-        "full_name": "Nom complet",
-        "enter_full_name": "Entrez votre nom complet",
-        "password": "Mot de passe",
-        "enter_password": "Entrez votre mot de passe",
-        "password_min_length": "Le mot de passe doit contenir au moins 6 caractères.",
-        "login_success": "Connexion réussie ! Redirection...",
-        "login_error": "Échec de la connexion. Veuillez réessayer.",
-        "google_login_success": "Connexion Google réussie ! Redirection...",
-        "google_login_failed": "Échec de la connexion Google. Veuillez réessayer.",
-        "login_with_google": "Se connecter avec Google",
-        "no_account": "Vous n'avez pas de compte ?",
-        "signup_title": "S'inscrire"
+          "title": "Connexion",
+          "full_name": "Nom complet",
+          "enter_full_name": "Entrez votre nom complet",
+          "password": "Mot de passe",
+          "enter_password": "Entrez votre mot de passe",
+          "password_min_length": "Le mot de passe doit contenir au moins 6 caractères.",
+          "login_success": "Connexion réussie ! Redirection...",
+          "login_error": "Échec de la connexion. Veuillez réessayer.",
+          "google_login_success": "Connexion Google réussie ! Redirection...",
+          "google_login_failed": "Échec de la connexion Google. Veuillez réessayer.",
+          "login_with_google": "Se connecter avec Google",
+          "no_account": "Vous n'avez pas de compte ?",
+          "signup_title": "S'inscrire"
       },
       "dashboard": {
-        "title": "Tableau de bord",
-        "welcome": "Bienvenue, Admin",
-        "archive": "Archive",
-        "products": "Produits",
-        "compare": "Comparer",
-        "search": "Recherche"
+          "title": "Tableau de bord",
+          "welcome": "Bienvenue, Admin",
+          "archive": "Archive",
+          "products": "Produits",
+          "compare": "Comparer",
+          "search": "Recherche"
       },
       "google": {
-        "success": "Connexion Google réussie ! Redirection...",
-        "failed": "Échec de la connexion Google. Veuillez réessayer."
+          "success": "Connexion Google réussie ! Redirection...",
+          "failed": "Échec de la connexion Google. Veuillez réessayer."
       }
-    },
-    "archive": {
-        "table": {
-            "title": "Tableau des données archivées"
-        }
-    },
-    "newpage": {
-        "title": "Page de tableau dynamique",
-        "selectFile": "Sélectionner un fichier",
-        "noFileChosen": "Aucun fichier sélectionné",
-        "browse": "Parcourir",
-        "enterText": "Entrez du texte",
-        "placeholder": "Tapez quelque chose...",
-        "selectTable": "Sélectionnez un tableau",
-        "chooseTable": "Choisissez un tableau"
-    },
-    "products": {
-        "loading": "Chargement des produits...",
-        "welcomeAdmin": "Bienvenue, Admin",
-        "products": "Produits",
-        "searchLabel": "Rechercher des produits",
-        "searchPlaceholder": "Rechercher des produits...",
-        "productImageAlt": "Image de {{title}}",
-        "price": "{{price}} €"
-    }
+  },
+  "submitForm": {
+      "title": "Soumission du formulaire",
+      "firstName": "Prénom",
+      "enterFirstName": "Entrez votre prénom",
+      "lastName": "Nom",
+      "enterLastName": "Entrez votre nom",
+      "gender": "Genre",
+      "selectGender": "Sélectionnez votre genre",
+      "male": "Homme",
+      "female": "Femme",
+      "other": "Autre",
+      "relationship": "État civil",
+      "selectRelationship": "Sélectionnez votre état civil",
+      "single": "Célibataire",
+      "married": "Marié(e)",
+      "fileInput": "Sélectionner un fichier",
+      "noFileChosen": "Aucun fichier sélectionné",
+      "submit": "Soumettre"
+  },
+  "archive": {
+      "table": {
+          "title": "Tableau des données archivées"
+      }
+  },
+  "newpage": {
+      "title": "Page de tableau dynamique",
+      "selectFile": "Sélectionner un fichier",
+      "noFileChosen": "Aucun fichier sélectionné",
+      "browse": "Parcourir",
+      "enterText": "Entrez du texte",
+      "placeholder": "Tapez quelque chose...",
+      "selectTable": "Sélectionnez un tableau",
+      "chooseTable": "Choisissez un tableau"
+  },
+  "products": {
+      "loading": "Chargement des produits...",
+      "welcomeAdmin": "Bienvenue, Admin",
+      "products": "Produits",
+      "searchLabel": "Rechercher des produits",
+      "searchPlaceholder": "Rechercher des produits...",
+      "productImageAlt": "Image de {{title}}",
+      "price": "{{price}} €"
+  }
 }
