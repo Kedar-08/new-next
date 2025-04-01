@@ -1,7 +1,7 @@
-"use client";
+ "use client";
 
 import { useTranslation } from "react-i18next";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Stack, Grid, Column, Form } from "@carbon/react";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,13 +10,6 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import TextInputField from "@/components/shared/textinput/TextInputField";
 import "./signupPage.scss";
-
-// Define a TypeScript type for form values
-interface SignupFormValues {
-  fullName: string;
-  email: string;
-  password: string;
-}
 
 export default function Signup() {
   const { t } = useTranslation();
