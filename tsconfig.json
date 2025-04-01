@@ -1,27 +1,42 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
+    "target": "ES2017", // Ensures compatibility with the latest ECMAScript features
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ], // Include required libraries
+    "allowJs": true, // Allows JavaScript files to be compiled
+    "skipLibCheck": true, // Skips checking of declaration files
+    "strict": true, // Enables all strict type-checking options
+    "noEmit": true, // Prevents the compiler from emitting output files
+    "esModuleInterop": true, // Enables default imports for CommonJS modules
+    "module": "esnext", // Uses ESNext modules for modern JS
+    "moduleResolution": "bundler", // Resolves modules in a way compatible with bundlers like Webpack
+    "resolveJsonModule": true, // Allows importing JSON files as modules
+    "isolatedModules": true, // Ensures TypeScript works with a single file at a time
+    "jsx": "preserve", // React JSX Transform for React 17+
+    "incremental": true, // Enables incremental compilation
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ] // Resolves @/ paths to the src folder
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "setupTests.ts",
+    "src/__tests__/**/*" // Include your test files
+  ],
+  "exclude": [
+    "node_modules" // Exclude node_modules
+  ]
 }

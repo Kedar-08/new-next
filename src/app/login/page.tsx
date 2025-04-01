@@ -111,7 +111,7 @@ export default function Login() {
             />
           </button>
         </div> */}
-        
+
         <p className={styles.signupRedirect}>
           {t("auth.login.no_account")}{" "}
           <Link href="/">{t("auth.signup.title")}</Link>

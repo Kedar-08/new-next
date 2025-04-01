@@ -1,6 +1,6 @@
 @use '@carbon/styles';
 @use 'profile/dashboard.module.scss';
 @use 'login/loginPage.module.scss';
-@use 'signup/signupPage.module.scss';
+@use './signup/signupPage.scss';
 @use '/src/app/profile/user/dashboard/ArchiveTable/archive.scss';
 

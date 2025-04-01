@@ -7,9 +7,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import styles from "./signupPage.module.scss";
 import { useRouter } from "next/navigation";
 import TextInputField from "@/components/shared/textinput/TextInputField";
+import "./signupPage.scss";
 
 // Define a TypeScript type for form values
 interface SignupFormValues {
@@ -36,12 +36,12 @@ export default function Signup() {
   });
 
   return (
-    <div className={styles.signupWrapper}>
-      <div className={styles.logoTitle}>
+    <div className="signupWrapper">
+      <div className="logoTitle">
         <Image src="/IBM_logo.svg.png" alt="IBM Logo" width={60} height={30} />
-        <h2 className={styles.header}>{t("common.app_name")}</h2>
+        <h2 className="header">{t("common.app_name")}</h2>
       </div>
-      <div className={styles.formContainer}>
+      <div className="formContainer">
         <h3>{t("auth.signup.title")}</h3>
 
         <Formik
@@ -73,8 +73,15 @@ export default function Signup() {
             }
           }}
         >
-          {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
-            <Form onSubmit={handleSubmit} className={styles.form}>
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => (
+            <Form onSubmit={handleSubmit} className="form">
               <Grid>
                 <Column sm={4} md={8} lg={16}>
                   <Stack gap={5}>
@@ -126,9 +133,9 @@ export default function Signup() {
           )}
         </Formik>
 
-        {message && <p className={styles.message}>{message}</p>}
+        {message && <p className="message">{message}</p>}
 
-        <p className={styles.loginRedirect}>
+        <p className="loginRedirect">
           {t("auth.signup.already_have_account")}{" "}
           <Link href="/login">{t("auth.login.title")}</Link>
         </p>
