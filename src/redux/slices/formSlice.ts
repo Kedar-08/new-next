@@ -22,20 +22,21 @@ const formSlice = createSlice({
   name: "form",
   initialState,
   reducers: {
-    saveForm: (state, action: PayloadAction<Omit<FormState, "isReadOnly">>) => {
-      Object.assign(state, {
-        ...action.payload,
+    saveForm: (state, action: PayloadAction<Partial<FormState>>) => {  
+      return {
+        ...state, 
+        ...action.payload, 
         isReadOnly: true,
-      });
+      };
     },
 
-    resetForm: () => initialState, // ✅ Now exists
+    resetForm: () => ({ ...initialState }),  // ✅ Creates a new object
 
     setReadOnly: (state, action: PayloadAction<boolean>) => {
-      state.isReadOnly = action.payload;
+      return { ...state, isReadOnly: action.payload };
     },
   },
 });
 
-export const { saveForm, resetForm, setReadOnly } = formSlice.actions; // ✅ Make sure all are exported
+export const { saveForm, resetForm, setReadOnly } = formSlice.actions;
 export default formSlice.reducer;

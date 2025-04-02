@@ -1,162 +1,183 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Signup from "@/app/signup/page";
-import { I18nextProvider } from 'react-i18next';
-import i18next from 'i18next';
-import { useRouter } from 'next/router';
+import { useRouter } from "next/navigation";
+import "@testing-library/jest-dom";
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn().mockReturnValue({ push: jest.fn() })
-}));  
+// Mock useTranslation from react-i18next
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => key, // Returns key as translation
+  }),
+}));
 
-beforeAll(() => {
-  i18next.init({
-    lng: 'en',
-    resources: {
-      en: {
-        translation: {
-          "auth.signup.full_name_required": "Full name is required",
-          "auth.signup.invalid_email": "Invalid email",
-          "auth.signup.email_required": "Email is required",
-          "auth.signup.password_min_length": "Password must be at least 6 characters",
-          "auth.signup.password_required": "Password is required",
-          "auth.signup.success": "Signed up successfully",
-          "auth.signup.failed": "Signup failed",
-          "auth.signup.error": "An error occurred",
-          "auth.signup.title": "Sign Up",
-          "auth.signup.full_name": "Full Name",
-          "auth.signup.email": "Email",
-          "auth.signup.password": "Password",
-          "auth.signup.enter_full_name": "Enter full name",
-          "auth.signup.enter_email": "Enter email",
-          "auth.signup.enter_password": "Enter password",
-          "auth.signup.already_have_account": "Already have an account?",
-          "auth.login.title": "Login",
-          "common.app_name": "My App",
-        },
-      },
-    },
-  });
-});
+// Mock useRouter
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(),
+}));
 
-afterEach(() => {
-  jest.resetAllMocks(); 
-});
-
-describe('Signup Component', () => {
-  it('renders the signup form correctly', () => {
-    render(
-      <I18nextProvider i18n={i18next}>
-        <Signup />
-      </I18nextProvider>
-    );
-
-    expect(screen.getByLabelText('auth.signup.full_name')).toBeInTheDocument();
-    expect(screen.getByLabelText('auth.signup.email')).toBeInTheDocument();
-    expect(screen.getByLabelText('auth.signup.password')).toBeInTheDocument();
-    expect(screen.getByText('auth.signup.title')).toBeInTheDocument();
+describe("Signup Component", () => {
+  beforeEach(() => {
+    (useRouter as jest.Mock).mockReturnValue({ push: jest.fn() });
+    // Clear all mocks before each test
+    jest.clearAllMocks();
   });
 
-  it('shows validation errors when form fields are empty', async () => {
-    render(
-      <I18nextProvider i18n={i18next}>
-        <Signup />
-      </I18nextProvider>
-    );
+  test("renders Signup component", () => {
+    render(<Signup />);
+    expect(
+      screen.getByRole("heading", { name: "auth.signup.title" })
+    ).toBeInTheDocument();
+  });
 
-    fireEvent.click(screen.getByRole('button', { name: 'Sign Up' }));
+  test("shows validation errors when submitting empty form", async () => {
+    render(<Signup />);
+    fireEvent.click(screen.getByRole("button", { name: "auth.signup.title" })); // Submit button
 
     await waitFor(() => {
-      expect(screen.getByText('auth.signup.full_name_required')).toBeInTheDocument();
-      expect(screen.getByText('auth.signup.email_required')).toBeInTheDocument();
-      expect(screen.getByText('auth.signup.password_required')).toBeInTheDocument();
+      expect(
+        screen.getByText("auth.signup.full_name_required")
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("auth.signup.email_required")
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("auth.signup.password_required")
+      ).toBeInTheDocument();
     });
   });
 
-  it('displays success message after successful signup', async () => {
-    global.fetch = jest.fn().mockResolvedValueOnce({ ok: true });
+  test("submits form successfully and redirects", async () => {
+    // Setup mocks
+    const mockRouter = { push: jest.fn() };
+    (useRouter as jest.Mock).mockReturnValue(mockRouter);
 
-    render(
-      <I18nextProvider i18n={i18next}>
-        <Signup />
-      </I18nextProvider>
-    );
+    // Mock fetch API
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ id: 1 }),
+      })
+    ) as jest.Mock;
 
-    fireEvent.change(screen.getByLabelText('auth.signup.full_name'), {
-      target: { value: 'John Doe' },
+    // Mock setTimeout
+    jest.useFakeTimers();
+
+    render(<Signup />);
+
+    // Fill form
+    fireEvent.change(screen.getByLabelText("auth.signup.full_name"), {
+      target: { value: "John Doe" },
     });
-    fireEvent.change(screen.getByLabelText('auth.signup.email'), {
-      target: { value: 'john.doe@example.com' },
+    fireEvent.change(screen.getByLabelText("auth.signup.email"), {
+      target: { value: "john@example.com" },
     });
-    fireEvent.change(screen.getByLabelText('auth.signup.password'), {
-      target: { value: 'password123' },
+    fireEvent.change(screen.getByLabelText("auth.signup.password"), {
+      target: { value: "password123" },
     });
 
-    fireEvent.click(screen.getByRole('button', { name: 'Sign Up' }));
+    // Submit form
+    fireEvent.click(screen.getByRole("button", { name: "auth.signup.title" }));
 
+    // Check success message
     await waitFor(() => {
-      expect(screen.getByText('auth.signup.success')).toBeInTheDocument();
+      expect(screen.getByText("auth.signup.success")).toBeInTheDocument();
     });
-  });
 
-  it('displays error message on failed signup', async () => {
-    global.fetch = jest.fn().mockResolvedValueOnce({ ok: false });
-
-    render(
-      <I18nextProvider i18n={i18next}>
-        <Signup />
-      </I18nextProvider>
+    // Verify fetch was called with correct data
+    expect(global.fetch).toHaveBeenCalledWith(
+      "https://jsonplaceholder.typicode.com/posts",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: "John Doe",
+          email: "john@example.com",
+          password: "password123",
+        }),
+      }
     );
 
-    fireEvent.change(screen.getByLabelText('auth.signup.full_name'), {
-      target: { value: 'John Doe' },
+    // Fast-forward time to trigger redirect
+    jest.advanceTimersByTime(2000);
+
+    // Verify redirect was called
+    expect(mockRouter.push).toHaveBeenCalledWith("/login");
+
+    // Clean up
+    jest.useRealTimers();
+  });
+
+  test("shows error message when form submission fails", async () => {
+    // Mock fetch to return error response
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: false,
+      })
+    ) as jest.Mock;
+
+    render(<Signup />);
+
+    // Fill form
+    fireEvent.change(screen.getByLabelText("auth.signup.full_name"), {
+      target: { value: "John Doe" },
     });
-    fireEvent.change(screen.getByLabelText('auth.signup.email'), {
-      target: { value: 'john.doe@example.com' },
+    fireEvent.change(screen.getByLabelText("auth.signup.email"), {
+      target: { value: "john@example.com" },
     });
-    fireEvent.change(screen.getByLabelText('auth.signup.password'), {
-      target: { value: 'password123' },
+    fireEvent.change(screen.getByLabelText("auth.signup.password"), {
+      target: { value: "password123" },
     });
 
-    fireEvent.click(screen.getByRole('button', { name: 'Sign Up' }));
+    // Submit form
+    fireEvent.click(screen.getByRole("button", { name: "auth.signup.title" }));
 
+    // Check error message
     await waitFor(() => {
-      expect(screen.getByText('auth.signup.failed')).toBeInTheDocument();
+      expect(screen.getByText("auth.signup.failed")).toBeInTheDocument();
     });
   });
 
-  it('displays error message when fetch fails', async () => {
-    global.fetch = jest.fn().mockRejectedValueOnce(new Error('Fetch failed'));
+  test("shows error message when form submission throws an exception", async () => {
+    // Mock fetch to throw an error
+    global.fetch = jest.fn(() =>
+      Promise.reject(new Error("Network error"))
+    ) as jest.Mock;
 
-    render(
-      <I18nextProvider i18n={i18next}>
-        <Signup />
-      </I18nextProvider>
-    );
+    // Mock console.error to prevent error output during tests
+    const originalConsoleError = console.error;
+    console.error = jest.fn();
 
-    fireEvent.change(screen.getByLabelText('auth.signup.full_name'), {
-      target: { value: 'John Doe' },
+    render(<Signup />);
+
+    // Fill form
+    fireEvent.change(screen.getByLabelText("auth.signup.full_name"), {
+      target: { value: "John Doe" },
     });
-    fireEvent.change(screen.getByLabelText('auth.signup.email'), {
-      target: { value: 'john.doe@example.com' },
+    fireEvent.change(screen.getByLabelText("auth.signup.email"), {
+      target: { value: "john@example.com" },
     });
-    fireEvent.change(screen.getByLabelText('auth.signup.password'), {
-      target: { value: 'password123' },
+    fireEvent.change(screen.getByLabelText("auth.signup.password"), {
+      target: { value: "password123" },
     });
 
-    fireEvent.click(screen.getByRole('button', { name: 'Sign Up' }));
+    // Submit form
+    fireEvent.click(screen.getByRole("button", { name: "auth.signup.title" }));
 
+    // Check error message
     await waitFor(() => {
-      expect(screen.getByText('auth.signup.error')).toBeInTheDocument();
+      expect(screen.getByText("auth.signup.error")).toBeInTheDocument();
     });
+
+    // Verify console.error was called
+    expect(console.error).toHaveBeenCalled();
+
+    // Clean up
+    console.error = originalConsoleError;
   });
 
-  // Explicitly check that useRouter mock was called (optional)
-  it('calls useRouter mock', () => {
-    render(
-      <I18nextProvider i18n={i18next}>
-        <Signup />
-      </I18nextProvider>
-    );
-    expect(useRouter).toHaveBeenCalled();
+  afterAll(() => {
+    // Clean up all mocks
+    jest.restoreAllMocks();
+    delete (global as any).fetch;
   });
 });

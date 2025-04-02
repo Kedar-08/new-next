@@ -3,13 +3,13 @@ import { TextInput } from "@carbon/react";
 
 interface TextInputProps {
   id: string;
-  name?: string; // Optional
+  name?: string;
   type?: string;
   labelText: string;
   placeholder?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void; // Optional
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   invalid?: boolean;
   invalidText?: string;
@@ -18,13 +18,13 @@ interface TextInputProps {
 
 const TextInputField = ({
   id,
-  name = id, // Default to id if not provided
+  name = id,
   type = "text",
   labelText,
   placeholder,
   value,
   onChange,
-  onBlur = () => {}, // Default empty function
+  onBlur,
   disabled = false,
   invalid = false,
   invalidText,
