@@ -1,20 +1,19 @@
 // src/providers/client-providers.tsx
-'use client'
+"use client";
 
-import { Provider } from 'react-redux'
-import { store } from '@/redux/store'
-import I18nProvider from './I18nProvider'
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
+import I18nProvider from "./I18nProvider";
+import { ReactNode } from "react";
 
-export default function ClientProviders({ 
-    children 
-  }: { 
-    children: React.ReactNode 
-  }) {
-    return (
-      <Provider store={store}>
-        <I18nProvider>
-          {children}
-        </I18nProvider>
-      </Provider>
-    );
-  }
+interface ClientProvidersProps {
+  readonly children: ReactNode;
+}
+
+export default function ClientProviders({ children }: ClientProvidersProps) {
+  return (
+    <Provider store={store}>
+      <I18nProvider>{children}</I18nProvider>
+    </Provider>
+  );
+}

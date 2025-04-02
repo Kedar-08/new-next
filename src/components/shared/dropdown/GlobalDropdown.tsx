@@ -7,14 +7,14 @@ interface GlobalDropdownProps {
   id: string;
   titleText?: string;
   label: string;
-  items: string[] | { id: string; text: string }[];
+  items: (string | { id: string; text: string })[];
   selectedItem: string | null;
   onChange: (selectedItem: string | null) => void;
   disabled?: boolean;
   helperText?: string;
 }
 
-const GlobalDropdown = ({
+const GlobalDropdown: React.FC<GlobalDropdownProps> = ({
   id,
   titleText,
   label,
@@ -23,16 +23,21 @@ const GlobalDropdown = ({
   onChange,
   disabled = false,
   helperText,
-}: GlobalDropdownProps) => {
-  const formattedItems =
-    typeof items[0] === "string"
-      ? (items as string[])
-      : (items as { id: string; text: string }[]).map((item) => item.text);
+}) => {
+  // Improved type guard
+  const isObjectArray = (
+    arr: (string | { id: string; text: string })[]
+  ): arr is { id: string; text: string }[] =>
+    arr.some((item) => typeof item === "object");
+
+  const formattedItems = isObjectArray(items)
+    ? items.map((item) => item.text) // Extract text from objects
+    : (items as string[]); // Already strings
 
   return (
     <Dropdown
       id={id}
-      titleText={titleText || label}
+      titleText={titleText ?? label} // Use ?? for a safer fallback
       label="Select an option"
       items={formattedItems}
       selectedItem={selectedItem ?? null}

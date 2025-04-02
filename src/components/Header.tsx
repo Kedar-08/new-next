@@ -1,5 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-
 import {
   Header,
   HeaderName,
@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 
 export default function GlobalHeader() {
-  const { i18n, t } = useTranslation(); // Use translation hook properly
+  const { i18n, t } = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
 
   const languages = [
@@ -23,13 +23,11 @@ export default function GlobalHeader() {
     { id: "ru", label: "Русский" },
   ];
 
-  const handleLanguageChange = (
-    selectedItem: { id: string; label: string } | null
-  ) => {
-    if (selectedItem && selectedItem.id) {
+  const handleLanguageChange = (selectedItem?: { id: string; label: string } | null) => {
+    if (selectedItem?.id) {
       i18n.changeLanguage(selectedItem.id);
-      localStorage.setItem("language", selectedItem.id); // Save selected language
-      setSelectedLanguage(selectedItem.label); // Update the state with the selected language's label
+      localStorage.setItem("language", selectedItem.id);
+      setSelectedLanguage(selectedItem.label);
     }
   };
 
@@ -38,10 +36,9 @@ export default function GlobalHeader() {
     const savedLanguage = localStorage.getItem("language");
     if (savedLanguage) {
       setSelectedLanguage(
-        languages.find((lang) => lang.id === savedLanguage)?.label ||
-          "Select Language"
+        languages.find((lang) => lang.id === savedLanguage)?.label ?? "Select Language"
       );
-      i18n.changeLanguage(savedLanguage); // Set the language when the page loads
+      i18n.changeLanguage(savedLanguage);
     } else {
       setSelectedLanguage("Select Language");
     }
@@ -62,12 +59,10 @@ export default function GlobalHeader() {
         {/* Language Dropdown */}
         <Dropdown
           id="language-dropdown"
-          label={selectedLanguage || t("select_language")}
+          label={selectedLanguage ?? t("select_language")}
           items={languages}
-          itemToString={(item) => (item ? item.label : "")}
-          onChange={({ selectedItem }) =>
-            handleLanguageChange(selectedItem ?? null)
-          }
+          itemToString={(item) => item?.label ?? ""}
+          onChange={({ selectedItem }) => handleLanguageChange(selectedItem ?? null)}
           titleText={undefined}
         />
 

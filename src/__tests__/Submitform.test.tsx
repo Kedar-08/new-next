@@ -3,7 +3,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { saveForm } from "@/redux/slices/formSlice";
-import { act } from "react-dom/test-utils";
 
 // Mock dependencies - needs to be before the component import
 jest.mock("react-i18next", () => ({
@@ -42,6 +41,63 @@ jest.mock("next/navigation", () => ({
 const originalConsoleLog = console.log;
 console.log = jest.fn();
 
+// Define interface types for component props
+interface DropdownProps {
+  id: string;
+  label: string;
+  selectedItem?: string;
+  onChange: (value: string | null) => void;
+  disabled?: boolean;
+  items?: string[];
+}
+
+interface TextInputProps {
+  id: string;
+  labelText: string;
+  value?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
+  placeholder?: string;
+}
+
+interface FileInputProps {
+  id: string;
+  labelText: string;
+  value?: string;
+  onChange: (filename: string) => void;
+  disabled?: boolean;
+  placeholder?: string;
+}
+
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  kind?: string;
+  className?: string;
+}
+
+interface GridProps {
+  children: React.ReactNode;
+  fullWidth?: boolean;
+  className?: string;
+}
+
+interface ColumnProps {
+  children: React.ReactNode;
+  sm?: number;
+  md?: number;
+  lg?: number;
+}
+
+interface FormProps {
+  children: React.ReactNode;
+}
+
+interface StackProps {
+  children: React.ReactNode;
+  gap?: number;
+}
+
 // Mock the shared components - make sure these come before the component import
 jest.mock("@/components/shared/dropdown/GlobalDropdown", () => ({
   __esModule: true,
@@ -52,7 +108,7 @@ jest.mock("@/components/shared/dropdown/GlobalDropdown", () => ({
     onChange,
     disabled,
     items,
-  }: any) {
+  }: DropdownProps) {
     return (
       <div data-testid={`mock-dropdown-${id}`}>
         <label>{label}</label>
@@ -84,7 +140,7 @@ jest.mock("@/components/shared/textinput/TextInputField", () => ({
     onChange,
     disabled,
     placeholder,
-  }: any) {
+  }: TextInputProps) {
     return (
       <div data-testid={`mock-input-${id}`}>
         <label>{labelText}</label>
@@ -110,7 +166,7 @@ jest.mock("@/components/shared/fileinput/FileInput", () => ({
     onChange,
     disabled,
     placeholder,
-  }: any) {
+  }: FileInputProps) {
     return (
       <div data-testid={`mock-file-input-${id}`}>
         <label>{labelText}</label>
@@ -130,7 +186,7 @@ jest.mock("@/components/shared/fileinput/FileInput", () => ({
 // Mock Carbon components
 jest.mock("@carbon/react", () => ({
   __esModule: true,
-  Button: function MockButton({ children, onClick, kind, className }: any) {
+  Button: function MockButton({ children, onClick, kind, className }: ButtonProps) {
     return (
       <button
         onClick={onClick}
@@ -142,24 +198,24 @@ jest.mock("@carbon/react", () => ({
       </button>
     );
   },
-  Grid: function MockGrid({ children, fullWidth, className }: any) {
+  Grid: function MockGrid({ children, fullWidth, className }: GridProps) {
     return (
       <div data-testid="grid" className={className} data-fullwidth={fullWidth}>
         {children}
       </div>
     );
   },
-  Column: function MockColumn({ children, sm, md, lg }: any) {
+  Column: function MockColumn({ children, sm, md, lg }: ColumnProps) {
     return (
       <div data-testid="column" data-sm={sm} data-md={md} data-lg={lg}>
         {children}
       </div>
     );
   },
-  Form: function MockForm({ children }: any) {
+  Form: function MockForm({ children }: FormProps) {
     return <form data-testid="form">{children}</form>;
   },
-  Stack: function MockStack({ children, gap }: any) {
+  Stack: function MockStack({ children, gap }: StackProps) {
     return (
       <div data-testid="stack" data-gap={gap}>
         {children}
@@ -279,42 +335,30 @@ describe("SubmitForm Component", () => {
     );
 
     // First name change
-    await act(async () => {
-      fireEvent.change(screen.getByTestId("input-firstName"), {
-        target: { value: "John" },
-      });
+    fireEvent.change(screen.getByTestId("input-firstName"), {
+      target: { value: "John" },
     });
 
     // Last name change
-    await act(async () => {
-      fireEvent.change(screen.getByTestId("input-lastName"), {
-        target: { value: "Doe" },
-      });
+    fireEvent.change(screen.getByTestId("input-lastName"), {
+      target: { value: "Doe" },
     });
 
     // Gender change
-    await act(async () => {
-      fireEvent.change(screen.getByTestId("select-gender"), {
-        target: { value: "Male" },
-      });
+    fireEvent.change(screen.getByTestId("select-gender"), {
+      target: { value: "Male" },
     });
 
     // Relationship change
-    await act(async () => {
-      fireEvent.change(screen.getByTestId("select-relationship"), {
-        target: { value: "Single" },
-      });
+    fireEvent.change(screen.getByTestId("select-relationship"), {
+      target: { value: "Single" },
     });
 
     // File input change
-    await act(async () => {
-      fireEvent.change(screen.getByTestId("file-fileInput"), {});
-    });
+    fireEvent.change(screen.getByTestId("file-fileInput"), {});
 
     // Submit the form
-    await act(async () => {
-      fireEvent.click(screen.getByTestId("submit-button"));
-    });
+    fireEvent.click(screen.getByTestId("submit-button"));
 
     // Check if correct action was dispatched
     const actions = store.getActions();
@@ -345,7 +389,7 @@ describe("SubmitForm Component", () => {
     );
   });
 
-  test("useEffect loads saved data into state when in read-only mode", async () => {
+  test("useEffect loads saved data into state when in read-only mode", () => {
     const initialState = {
       form: {
         isReadOnly: true,
@@ -358,13 +402,11 @@ describe("SubmitForm Component", () => {
     };
     const store = mockStore(initialState);
 
-    await act(async () => {
-      render(
-        <Provider store={store}>
-          <SubmitForm />
-        </Provider>
-      );
-    });
+    render(
+      <Provider store={store}>
+        <SubmitForm />
+      </Provider>
+    );
 
     // Check that the values were loaded from redux state
     expect(screen.getByTestId("input-firstName")).toHaveValue("Jane");
@@ -374,7 +416,7 @@ describe("SubmitForm Component", () => {
     expect(console.log).toHaveBeenCalledWith("Redux State:", initialState.form);
   });
 
-  test("useEffect sets default empty strings when form data fields are missing", async () => {
+  test("useEffect sets default empty strings when form data fields are missing", () => {
     const initialState = {
       form: {
         isReadOnly: true,
@@ -388,13 +430,11 @@ describe("SubmitForm Component", () => {
     };
     const store = mockStore(initialState);
 
-    await act(async () => {
-      render(
-        <Provider store={store}>
-          <SubmitForm />
-        </Provider>
-      );
-    });
+    render(
+      <Provider store={store}>
+        <SubmitForm />
+      </Provider>
+    );
 
     // Check for existing value
     expect(screen.getByTestId("input-firstName")).toHaveValue("Jane");
@@ -422,49 +462,43 @@ describe("SubmitForm Component", () => {
       </Provider>
     );
 
-    // Get direct access to the handleChange function by mocking onChange directly
-    const genderDropdown = screen.getByTestId("mock-dropdown-gender");
+    // Get direct access to the select element
     const genderSelect = screen.getByTestId("select-gender");
 
     // Simulate null value coming from dropdown (direct test of handleChange with null)
-    await act(async () => {
-      // Call the onChange handler with null value to test the null-to-empty-string conversion
-      const dropdownOnChange = jest.fn();
-      const originalOnChange = genderSelect.onchange;
-      genderSelect.onchange = dropdownOnChange;
+    const dropdownOnChange = jest.fn();
+    const originalOnChange = genderSelect.onchange;
+    genderSelect.onchange = dropdownOnChange;
 
-      // This simulates a user selecting something that results in null
-      fireEvent.change(genderSelect, { target: { value: "" } });
+    // This simulates a user selecting something that results in null
+    fireEvent.change(genderSelect, { target: { value: "" } });
 
-      // Manually trigger handleChange with null to test that specific code path
-      // We need to find the onChange prop in the GlobalDropdown mock and call it directly
-      const mockDropdownProps = jest.requireMock(
+    // Manually trigger handleChange with null to test that specific code path
+    // We need to find the onChange prop in the GlobalDropdown mock and call it directly
+    const mockDropdownProps = jest.requireMock(
+      "@/components/shared/dropdown/GlobalDropdown"
+    ).default.mock?.calls?.[0]?.[0] as DropdownProps | undefined;
+    if (mockDropdownProps?.onChange) {
+      mockDropdownProps.onChange(null);
+    } else {
+      // Alternative: Get the props by finding the onChange handler in the rendered component
+      const mockDropdown = jest.requireMock(
         "@/components/shared/dropdown/GlobalDropdown"
-      ).default.mock?.calls?.[0]?.[0];
-      if (mockDropdownProps?.onChange) {
-        mockDropdownProps.onChange(null);
-      } else {
-        // Alternative: Get the props by finding the onChange handler in the rendered component
-        const mockDropdown = jest.requireMock(
-          "@/components/shared/dropdown/GlobalDropdown"
-        ).default;
-        const mockCalls = mockDropdown.mock?.calls;
-        if (mockCalls && mockCalls.length > 0) {
-          const props = mockCalls.find((call) => call[0].id === "gender");
-          if (props && props[0]?.onChange) {
-            props[0].onChange(null);
-          }
+      ).default;
+      const mockCalls = mockDropdown.mock?.calls;
+      if (mockCalls && mockCalls.length > 0) {
+        const props = mockCalls.find((call) => call[0].id === "gender");
+        if (props && props[0]?.onChange) {
+          props[0].onChange(null);
         }
       }
+    }
 
-      // Restore original handler
-      genderSelect.onchange = originalOnChange;
-    });
+    // Restore original handler
+    genderSelect.onchange = originalOnChange;
 
     // Submit the form
-    await act(async () => {
-      fireEvent.click(screen.getByTestId("submit-button"));
-    });
+    fireEvent.click(screen.getByTestId("submit-button"));
 
     // Check Redux action
     const actions = store.getActions();
@@ -493,7 +527,7 @@ describe("SubmitForm Component", () => {
     expect(screen.getByTestId("input-lastName")).toHaveValue("");
   });
 
-  test("useEffect is skipped when not in read-only mode", async () => {
+  test("useEffect is skipped when not in read-only mode", () => {
     const initialState = {
       form: {
         isReadOnly: false,
@@ -506,13 +540,11 @@ describe("SubmitForm Component", () => {
     };
     const store = mockStore(initialState);
 
-    await act(async () => {
-      render(
-        <Provider store={store}>
-          <SubmitForm />
-        </Provider>
-      );
-    });
+    render(
+      <Provider store={store}>
+        <SubmitForm />
+      </Provider>
+    );
 
     // Form values should remain empty because useEffect is skipped
     expect(screen.getByTestId("input-firstName")).toHaveValue("");
@@ -557,7 +589,7 @@ describe("SubmitForm Component", () => {
     expect(button).toHaveClass("mock-submit-btn");
   });
 
-  test("form inputs handle multiple changes correctly", async () => {
+  test("form inputs handle multiple changes correctly", () => {
     const initialState = {
       form: {
         isReadOnly: false,
@@ -572,22 +604,16 @@ describe("SubmitForm Component", () => {
     );
 
     // Change value for firstName multiple times
-    await act(async () => {
-      fireEvent.change(screen.getByTestId("input-firstName"), {
-        target: { value: "J" },
-      });
+    fireEvent.change(screen.getByTestId("input-firstName"), {
+      target: { value: "J" },
     });
 
-    await act(async () => {
-      fireEvent.change(screen.getByTestId("input-firstName"), {
-        target: { value: "Jo" },
-      });
+    fireEvent.change(screen.getByTestId("input-firstName"), {
+      target: { value: "Jo" },
     });
 
-    await act(async () => {
-      fireEvent.change(screen.getByTestId("input-firstName"), {
-        target: { value: "John" },
-      });
+    fireEvent.change(screen.getByTestId("input-firstName"), {
+      target: { value: "John" },
     });
 
     // Test the final value is correct

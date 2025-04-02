@@ -38,17 +38,15 @@ const ArchiveTable = () => {
   };
 
   return (
-    <>
-      <main style={{ padding: "2rem", marginTop: "3rem" }}>
-        <h2 className="backgroundCol">{t("archive.table.title")}</h2>
-        <CustomDataTable
-          headers={headers}
-          rows={rows}
-          onAddRow={addNewRow}
-          onDeleteRows={deleteSelectedRows}
-        />
-      </main>
-    </>
+    <main style={{ padding: "2rem", marginTop: "3rem" }}>
+      <h2 className="backgroundCol">{t("archive.table.title")}</h2>
+      <CustomDataTable
+        headers={headers}
+        rows={rows}
+        onAddRow={addNewRow}
+        onDeleteRows={deleteSelectedRows}
+      />
+    </main>
   );
 };
 

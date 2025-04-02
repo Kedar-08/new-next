@@ -1,8 +1,8 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import Image from "next/image";
 import {
   Grid,
   Column,
@@ -40,7 +40,6 @@ export default function ProductsPage() {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -57,63 +56,61 @@ export default function ProductsPage() {
   }
 
   return (
-    <>
-      <main style={{ padding: "2rem", marginTop: "3rem" }}>
-        <h3 style={{ marginBottom: "3rem" }}>{t("products.welcomeAdmin")}</h3>
-        <h4 style={{ marginBottom: "2rem" }}>{t("products.products")}</h4>
+    <main style={{ padding: "2rem", marginTop: "3rem" }}>
+      <h3 style={{ marginBottom: "3rem" }}>{t("products.welcomeAdmin")}</h3>
+      <h4 style={{ marginBottom: "2rem" }}>{t("products.products")}</h4>
 
-        {/* Search Bar */}
-        <Grid className={styles.searchContainer}>
-          <Column sm={4} md={8} lg={8}>
-            <Search
-              labelText={t("products.searchLabel")}
-              placeholder={t("products.searchPlaceholder")}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              size="lg"
-              className={styles.search}
-            />
-          </Column>
-        </Grid>
+      {/* Search Bar */}
+      <Grid className={styles.searchContainer}>
+        <Column sm={4} md={8} lg={8}>
+          <Search
+            labelText={t("products.searchLabel")}
+            placeholder={t("products.searchPlaceholder")}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            size="lg"
+            className={styles.search}
+          />
+        </Column>
+      </Grid>
 
-        {/* Products Grid */}
-        <Grid narrow className={styles.productsGrid}>
-          {filteredProducts.map((product) => (
-            <Column
-              sm={4}
-              md={4}
-              lg={4}
-              key={product.id}
-              className={styles.column}
+      {/* Products Grid */}
+      <Grid narrow className={styles.productsGrid}>
+        {filteredProducts.map((product) => (
+          <Column
+            sm={4}
+            md={4}
+            lg={4}
+            key={product.id}
+            className={styles.column}
+          >
+            <ClickableTile
+              className={styles.productTile}
+              onClick={() =>
+                router.push(`/profile/user/dashboard/products/${product.id}`)
+              }
             >
-              <ClickableTile
-                className={styles.productTile}
-                onClick={() =>
-                  router.push(`/profile/user/dashboard/products/${product.id}`)
-                }
-              >
-                <AspectRatio ratio="16x9">
-                  <img
-                    src={product.thumbnail}
-                    alt={t("products.productImageAlt", {
-                      title: product.title,
-                    })}
-                    className={styles.productImage}
-                  />
-                </AspectRatio>
-                <div className={styles.productContent}>
-                  <h3 className="cds--type-productive-heading-02">
-                    {product.title}
-                  </h3>
-                  <p className="cds--type-body-long-01 mt-2">
-                    {t("products.price", { price: product.price.toFixed(2) })}
-                  </p>
-                </div>
-              </ClickableTile>
-            </Column>
-          ))}
-        </Grid>
-      </main>
-    </>
+              <AspectRatio ratio="16x9">
+                <Image
+                  src={product.thumbnail}
+                  alt={t("products.productImageAlt", { title: product.title })}
+                  width={300}
+                  height={200}
+                  className={styles.productImage}
+                />
+              </AspectRatio>
+              <div className={styles.productContent}>
+                <h3 className="cds--type-productive-heading-02">
+                  {product.title}
+                </h3>
+                <p className="cds--type-body-long-01 mt-2">
+                  {t("products.price", { price: product.price.toFixed(2) })}
+                </p>
+              </div>
+            </ClickableTile>
+          </Column>
+        ))}
+      </Grid>
+    </main>
   );
 }

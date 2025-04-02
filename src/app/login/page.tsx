@@ -1,5 +1,4 @@
 "use client";
-
 import { useTranslation } from "react-i18next";
 import React, { useState } from "react";
 import { Button, Stack, Form } from "@carbon/react";
@@ -9,7 +8,6 @@ import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styles from "./loginPage.module.scss";
-// import { signInWithGoogle } from "@/app/lib/firebase";
 import TextInputField from "@/components/shared/textinput/TextInputField";
 
 export default function Login() {
@@ -35,7 +33,6 @@ export default function Login() {
       try {
         localStorage.setItem("user", JSON.stringify(values));
         setMessage(t("auth.login.success"));
-
         setTimeout(() => {
           router.push("/profile/user/dashboard");
         }, 500);
@@ -44,21 +41,6 @@ export default function Login() {
       }
     },
   });
-
-  // Handle Google Sign-In
-  // const handleGoogleSignIn = async () => {
-  //   const user = await signInWithGoogle();
-  //   if (user) {
-  //     localStorage.setItem("user", JSON.stringify(user));
-  //     setMessage(t("auth.google.success"));
-
-  //     setTimeout(() => {
-  //       router.push("/profile/user/dashboard");
-  //     }, 500);
-  //   } else {
-  //     setMessage(t("auth.google.failed"));
-  //   }
-  // };
 
   return (
     <div className={styles.loginWrapper}>
@@ -76,7 +58,7 @@ export default function Login() {
               labelText={t("auth.login.full_name")}
               placeholder={t("auth.login.enter_full_name")}
               invalid={!!(formik.errors.fullName && formik.touched.fullName)}
-              invalidText={t(formik.errors.fullName || "")}
+              invalidText={t(formik.errors.fullName ?? "")}
               value={formik.values.fullName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -88,7 +70,7 @@ export default function Login() {
               labelText={t("auth.login.password")}
               placeholder={t("auth.login.enter_password")}
               invalid={!!(formik.errors.password && formik.touched.password)}
-              invalidText={t(formik.errors.password || "")}
+              invalidText={t(formik.errors.password ?? "")}
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -99,19 +81,6 @@ export default function Login() {
           </Stack>
         </Form>
         {message && <p className={styles.message}>{message}</p>}
-
-        {/* <div className={styles.googleLogin}>
-          <span>{t("auth.login.login_with_google")}</span>
-          <button onClick={handleGoogleSignIn} className={styles.googleButton}>
-            <Image
-              src="/icons8-google.svg"
-              alt={t("auth.login.with_google")}
-              width={25}
-              height={25}
-            />
-          </button>
-        </div> */}
-
         <p className={styles.signupRedirect}>
           {t("auth.login.no_account")}{" "}
           <Link href="/">{t("auth.signup.title")}</Link>

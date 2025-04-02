@@ -1,7 +1,7 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   Grid,
   Column,
@@ -23,51 +23,47 @@ import {
 } from "@carbon/react";
 import { ArrowLeft, Star, StarFilled } from "@carbon/icons-react";
 import styles from "./product.module.scss";
+import { v4 as uuidv4 } from "uuid";
 
 interface Review {
-  rating: number;
-  comment: string;
-  date: string;
-  reviewerName: string;
+  readonly rating: number;
+  readonly comment: string;
+  readonly date: string;
+  readonly reviewerName: string;
 }
-
 interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  thumbnail: string;
-  images: string[];
-  brand: string;
-  category: string;
-  rating: number;
-  stock: number;
-  discountPercentage: number;
-  tags: string[];
-  sku: string;
-  weight: number;
-  dimensions: {
-    width: number;
-    height: number;
-    depth: number;
+  readonly id: number;
+  readonly title: string;
+  readonly description: string;
+  readonly price: number;
+  readonly thumbnail: string;
+  readonly images: string[];
+  readonly brand: string;
+  readonly category: string;
+  readonly rating: number;
+  readonly stock: number;
+  readonly discountPercentage: number;
+  readonly tags: string[];
+  readonly sku: string;
+  readonly weight: number;
+  readonly dimensions: {
+    readonly width: number;
+    readonly height: number;
+    readonly depth: number;
   };
-  warrantyInformation: string;
-  shippingInformation: string;
-  availabilityStatus: string;
-  reviews: Review[];
-  returnPolicy: string;
-  minimumOrderQuantity: number;
+  readonly warrantyInformation: string;
+  readonly shippingInformation: string;
+  readonly availabilityStatus: string;
+  readonly reviews: Review[];
+  readonly returnPolicy: string;
+  readonly minimumOrderQuantity: number;
 }
 
-export default function ProductDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function ProductDetailPage() {
   const router = useRouter();
-  const [product, setProduct] = useState<Product | null>(null);
-  const routeParams = useParams(); // ✅ Extract params using useParams
+  const routeParams = useParams();
   const productId = routeParams.id as string;
+  const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -104,15 +100,14 @@ export default function ProductDetailPage({
     return <div>Product not found</div>;
   }
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, index) =>
+  const renderStars = (rating: number) =>
+    Array.from({ length: 5 }, (_, index) =>
       index < Math.floor(rating) ? (
-        <StarFilled key={index} size={16} className={styles.starFilled} />
+        <StarFilled key={uuidv4()} size={16} className={styles.starFilled} />
       ) : (
-        <Star key={index} size={16} className={styles.star} />
+        <Star key={uuidv4()} size={16} className={styles.star} />
       )
     );
-  };
 
   const hasMultipleImages = product.images.length > 1;
 
@@ -127,7 +122,6 @@ export default function ProductDetailPage({
         >
           Back to Products
         </Button>
-
         <Grid narrow>
           <Column sm={4} md={8} lg={16}>
             <Tile className={styles.productTile}>
@@ -135,9 +129,11 @@ export default function ProductDetailPage({
                 <Column sm={4} md={4} lg={8}>
                   <div className={styles.imageContainer}>
                     <AspectRatio ratio="4x3">
-                      <img
+                      <Image
                         src={product.images[selectedImage]}
                         alt={product.title}
+                        width={500}
+                        height={375}
                         className={styles.mainImage}
                       />
                     </AspectRatio>
@@ -145,15 +141,17 @@ export default function ProductDetailPage({
                       <div className={styles.thumbnailGrid}>
                         {product.images.map((image, index) => (
                           <button
-                            key={index}
+                            key={uuidv4()} // ✅ Unique key using uuid
                             onClick={() => setSelectedImage(index)}
                             className={`${styles.thumbnailButton} ${
                               selectedImage === index ? styles.selected : ""
                             }`}
                           >
-                            <img
+                            <Image
                               src={image}
-                              alt={`${product.title} - Image ${index + 1}`}
+                              alt={`Thumbnail ${index + 1} of ${product.title}`}
+                              width={100}
+                              height={75}
                               className={styles.thumbnail}
                             />
                           </button>
@@ -162,13 +160,12 @@ export default function ProductDetailPage({
                     )}
                   </div>
                 </Column>
-
                 <Column sm={4} md={4} lg={8}>
                   <div className={styles.productInfo}>
                     <div>
                       <div className={styles.tags}>
-                        {product.tags?.map((tag, index) => (
-                          <Tag key={index} type="blue" size="sm">
+                        {product.tags?.map((tag) => (
+                          <Tag key={uuidv4()} type="blue" size="sm">
                             {tag}
                           </Tag>
                         ))}
@@ -188,7 +185,6 @@ export default function ProductDetailPage({
                         </span>
                       </div>
                     </div>
-
                     <div className={styles.priceSection}>
                       <div className={styles.priceContainer}>
                         <p className="cds--type-productive-heading-04">
@@ -208,7 +204,6 @@ export default function ProductDetailPage({
                           (product.stock < 10 ? "Low Stock" : "In Stock")}
                       </Tag>
                     </div>
-
                     <div className={styles.tabs}>
                       <Tabs
                         selectedIndex={selectedTab}
@@ -237,82 +232,8 @@ export default function ProductDetailPage({
                                     {product.sku}
                                   </StructuredListCell>
                                 </StructuredListRow>
-                                <StructuredListRow>
-                                  <StructuredListCell>
-                                    Weight
-                                  </StructuredListCell>
-                                  <StructuredListCell>
-                                    {product.weight} kg
-                                  </StructuredListCell>
-                                </StructuredListRow>
-                                <StructuredListRow>
-                                  <StructuredListCell>
-                                    Dimensions
-                                  </StructuredListCell>
-                                  <StructuredListCell>
-                                    {product.dimensions.width} ×{" "}
-                                    {product.dimensions.height} ×{" "}
-                                    {product.dimensions.depth} cm
-                                  </StructuredListCell>
-                                </StructuredListRow>
-                                <StructuredListRow>
-                                  <StructuredListCell>
-                                    Minimum Order
-                                  </StructuredListCell>
-                                  <StructuredListCell>
-                                    {product.minimumOrderQuantity} units
-                                  </StructuredListCell>
-                                </StructuredListRow>
-                                <StructuredListRow>
-                                  <StructuredListCell>
-                                    Warranty
-                                  </StructuredListCell>
-                                  <StructuredListCell>
-                                    {product.warrantyInformation}
-                                  </StructuredListCell>
-                                </StructuredListRow>
                               </StructuredListBody>
                             </StructuredListWrapper>
-                          </TabPanel>
-                          <TabPanel>
-                            <div className={styles.reviews}>
-                              {product.reviews?.map((review, index) => (
-                                <div key={index} className={styles.review}>
-                                  <div className={styles.reviewHeader}>
-                                    <div className={styles.stars}>
-                                      {renderStars(review.rating)}
-                                    </div>
-                                    <span className="cds--type-body-compact-01">
-                                      {new Date(
-                                        review.date
-                                      ).toLocaleDateString()}
-                                    </span>
-                                  </div>
-                                  <p className="cds--type-body-long-01">
-                                    {review.comment}
-                                  </p>
-                                  <p className="cds--type-body-compact-01 mt-2">
-                                    - {review.reviewerName}
-                                  </p>
-                                </div>
-                              ))}
-                            </div>
-                          </TabPanel>
-                          <TabPanel>
-                            <div className={styles.shipping}>
-                              <h3 className="cds--type-productive-heading-02">
-                                Shipping Information
-                              </h3>
-                              <p className="cds--type-body-long-01 mt-2">
-                                {product.shippingInformation}
-                              </p>
-                              <h3 className="cds--type-productive-heading-02 mt-4">
-                                Return Policy
-                              </h3>
-                              <p className="cds--type-body-long-01 mt-2">
-                                {product.returnPolicy}
-                              </p>
-                            </div>
                           </TabPanel>
                         </TabPanels>
                       </Tabs>
